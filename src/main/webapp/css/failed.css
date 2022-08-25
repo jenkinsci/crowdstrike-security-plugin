@@ -1,0 +1,26 @@
+.failure-content {
+    display: flex;
+    border:2px solid red;
+    background: #333237;
+    color: #fafafa;
+    overflow: hidden;
+    padding: 3.5rem;
+}
+
+.message {
+    padding-left: 10px;
+}
+
+.message-colour {
+    color:#a6acb0;
+}
+
+.x {
+    margin-top: 3%;
+    width: 15%;
+    height: 100%;
+    float:left;
+    text-align: center;
+    display: inline-block;
+    color: red;
+}

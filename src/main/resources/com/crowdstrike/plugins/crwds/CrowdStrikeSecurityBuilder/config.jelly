@@ -1,0 +1,24 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+<f:block>
+    <b>When CrowdStrike Falcon API recommends to prevent a build from progressing:</b>
+</f:block>
+    <f:entry title="Enforce the recommendation" field="enforce" help="/plugin/crowdstrike-security-plugin/helpers/help-performActionWhenNonCompliant.html">
+      <f:checkbox/>
+    </f:entry>
+
+    <f:block>
+    <b>Image to assess:</b>
+    </f:block>
+    <f:entry title="Image Name:" field="imageName" help="/plugin/crowdstrike-security-plugin/helpers/help-ImageName.html">
+        <f:textbox />
+    </f:entry>
+    <f:entry title="Image Tag:" field="imageTag" help="/plugin/crowdstrike-security-plugin/helpers/help-ImageTag.html">
+        <f:textbox />
+    </f:entry>
+    <f:entry title="Timeout:" field="timeout" help="/plugin/crowdstrike-security-plugin/helpers/help-Timeout.html">
+        <f:textbox default="60" clazz="positive-number"/>
+    </f:entry>
+
+</j:jelly>
+

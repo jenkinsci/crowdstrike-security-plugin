@@ -1,0 +1,7 @@
+<?jelly escape-by-default='true'?>
+<!--
+This view is rendered in the installed plugins page.
+-->
+<div>
+    Enables assessment of Docker container images for vulnerabilities by sending them to CrowdStrike's Falcon Image Assessment module, pulling the report of vulnerabilities found, and optionally blocking the build based on configured IA Policy.
+</div>

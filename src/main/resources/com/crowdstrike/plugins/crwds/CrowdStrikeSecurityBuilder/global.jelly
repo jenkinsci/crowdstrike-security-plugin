@@ -1,0 +1,14 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:c="/lib/credentials">
+  <!--
+    This Jelly script is used to produce the global configuration option.
+  -->
+  <f:section title="CrowdStrike Security Plugin">
+    <f:entry title="Falcon Cloud" field="falconCloud">
+      <f:select/>
+    </f:entry>
+    <f:entry title="Falcon credential" field="falconCredentialId">
+        <c:select />
+    </f:entry>
+  </f:section>
+</j:jelly>

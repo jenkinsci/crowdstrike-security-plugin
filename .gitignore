@@ -24,3 +24,9 @@ hs_err_pid*
 
 # DS Store
 .DS_Store
+
+.classpath
+.project
+.settings/
+target/
+release.properties

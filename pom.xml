@@ -31,7 +31,7 @@
 		<version>4.44</version>
 		<relativePath />
 	</parent>
-	<groupId>io.jenkins.plugins</groupId>
+	<groupId>io.crowdstrike.plugins</groupId>
 	<artifactId>crowdstrike-security</artifactId>
 	<packaging>hpi</packaging>
 	<name>CrowdStrike Security</name>

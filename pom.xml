@@ -46,7 +46,7 @@
 	  <url>https://github.com/jenkinsci/crowdstrike-security-plugin</url>
 	  <tag>HEAD</tag>
 	</scm>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>${revision}${changelist}</version>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>

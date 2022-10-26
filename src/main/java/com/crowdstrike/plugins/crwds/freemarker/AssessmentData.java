@@ -404,11 +404,11 @@ public class AssessmentData {
             Tag = tag;
         }
 
-        public String getID() {
+        public String getId() {
             return ID;
         }
 
-        public void setID(String ID) {
+        public void setId(String ID) {
             this.ID = ID;
         }
 
@@ -812,11 +812,11 @@ public class AssessmentData {
             private String Remediation;
             private String Severity;
 
-            public String getID() {
+            public String getId() {
                 return ID;
             }
 
-            public void setID(String ID) {
+            public void setId(String ID) {
                 this.ID = ID;
             }
 

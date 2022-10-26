@@ -51,6 +51,10 @@
 		<changelist>-SNAPSHOT</changelist>
 		<jenkins.version>2.332.3</jenkins.version>
 		<hpi-plugin.version>3.25</hpi-plugin.version>
+
+		<spotbugs.effort>Max</spotbugs.effort>
+		<spotbugs.failOnError>true</spotbugs.failOnError>
+		<spotbugs.threshold>Low</spotbugs.threshold>
 	</properties>
 
 	<dependencyManagement>

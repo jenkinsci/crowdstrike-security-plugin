@@ -49,7 +49,7 @@
 	<properties>
 		<revision>1.0.0</revision>
 		<changelist>-SNAPSHOT</changelist>
-		<jenkins.version>2.319.1</jenkins.version>
+		<jenkins.version>2.332.3</jenkins.version>
 		<hpi-plugin.version>3.25</hpi-plugin.version>
 	</properties>
 

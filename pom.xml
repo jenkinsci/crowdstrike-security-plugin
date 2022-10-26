@@ -11,7 +11,7 @@
 
 	<groupId>io.jenkins.plugins</groupId>
 	<artifactId>crowdstrike-security</artifactId>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>${changelist}</version>
 	<packaging>hpi</packaging>
 
 	<name>CrowdStrike Security</name>
@@ -47,8 +47,7 @@
 	</distributionManagement>
 
 	<properties>
-		<revision>1.0.0</revision>
-		<changelist>-SNAPSHOT</changelist>
+		<changelist>99999-SNAPSHOT</changelist>
 		<gitHubRepo>jenkinsci/crowdstrike-security-plugin</gitHubRepo>
 		<jenkins.version>2.332.3</jenkins.version>
 		<hpi-plugin.version>3.25</hpi-plugin.version>

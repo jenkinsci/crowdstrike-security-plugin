@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -153,15 +154,15 @@ public class AssessmentData {
     public HashMap<String, Integer> severitiesAndCount() {
         LinkedHashMap<String, Integer> severities = new LinkedHashMap<>();
         for (String s : severitiesList) {
-            severities.put(s.toUpperCase(), 0);
+            severities.put(s.toUpperCase(Locale.getDefault()), 0);
         }
         if (vulnerabilities != null) {
             for (Vulnerabilities vuls : vulnerabilities) {
                 if (vuls.vulnerability != null) {
                     Vulnerabilities.Vulnerability vul = vuls.vulnerability;
                     if (vul.details != null) {
-                        Integer currCount = severities.getOrDefault(vul.details.severity.toUpperCase(), 0);
-                        severities.put(vul.details.severity.toUpperCase(), currCount + 1);
+                        Integer currCount = severities.getOrDefault(vul.details.severity.toUpperCase(Locale.getDefault()), 0);
+                        severities.put(vul.details.severity.toUpperCase(Locale.getDefault()), currCount + 1);
                     }
                 }
             }
@@ -195,7 +196,7 @@ public class AssessmentData {
     }
 
     public String severityColor(String severity) {
-        switch (severity.toLowerCase()) {
+        switch (severity.toLowerCase(Locale.getDefault())) {
             case "critical":
                 return "critical";
             case "high":
@@ -212,7 +213,7 @@ public class AssessmentData {
     }
 
     public String severityLabel(String severity) {
-        switch (severity.toLowerCase()) {
+        switch (severity.toLowerCase(Locale.getDefault())) {
             case "critical":
                 return "Critical";
             case "high":
@@ -229,7 +230,7 @@ public class AssessmentData {
     }
 
     public String getIconByType(String type) {
-        switch (type.toLowerCase()) {
+        switch (type.toLowerCase(Locale.getDefault())) {
             case "success":
                 return "<svg class=\"mr-1\" width=\"25\" height=\"25\" viewBox=\"0 0 25 25\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n" +
                         "    <path d=\"M12.5 1.042C6.172 1.042 1.04 6.172 1.04 12.5S6.171 23.958 12.5 23.958c6.328 0 11.458-5.13 11.458-11.458S18.828 1.042 12.5 1.042zM9.627 18.016 5.68 14.069l1.473-1.473 2.474 2.474 7.557-7.557 1.473 1.472-9.03 9.03z\" fill=\"#06E5B7\"/>\n" +

@@ -146,12 +146,12 @@ public class FalconScanner {
 
             if(connection.getResponseCode() == 200 || connection.getResponseCode() == 201) {
                 String line;
-                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
                 StringBuilder content = new StringBuilder();
-                while((line = reader.readLine()) != null) {
-                    content.append(line);
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
+                    while((line = reader.readLine()) != null) {
+                        content.append(line);
+                    }
                 }
-                reader.close();
 
                 final JSONObject authResponseBodyJson = parseFromJsonString(String.valueOf(content));
                 return authResponseBodyJson.get("access_token").toString();

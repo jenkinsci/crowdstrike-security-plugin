@@ -9,6 +9,10 @@ import hudson.util.Secret;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 public class CredentialsDefault extends BaseStandardCredentials implements FalconClientIdAndToken {
+    /**
+     * Ensure consistent serialization.
+     */
+    private static final long serialVersionUID = 1L;
 
     private final String clientID;
 

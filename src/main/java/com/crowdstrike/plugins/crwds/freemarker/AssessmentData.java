@@ -15,120 +15,120 @@ public class AssessmentData {
     private final String[] severitiesList = new String[] {"critical", "high", "medium", "low", "negligible"};
 
     // @SerializedName(value = "scanInfo", alternate = {"ScanInfo", "Scaninfo"})
-    private ScanInfo ScanInfo;
-    private ImageInfo ImageInfo;
-    private Config Config;
-    private OSInfo OSInfo;
-    private ArrayList<Vulnerabilities> Vulnerabilities;
-    private ArrayList<Detections> Detections;
-    private ArrayList<Layers> Layers;
-    private ArrayList<Packages> Packages;
-    private ArrayList<ELFBinaries> ELFBinaries;
-    private InventoryEngineInfo InventoryEngineInfo;
-    private DetectionEngineInfo DetectionEngineInfo;
+    private ScanInfo scanInfo;
+    private ImageInfo imageInfo;
+    private Config config;
+    private OSInfo osInfo;
+    private ArrayList<Vulnerabilities> vulnerabilities;
+    private ArrayList<Detections> detections;
+    private ArrayList<Layers> layers;
+    private ArrayList<Packages> packages;
+    private ArrayList<ELFBinaries> elfBinaries;
+    private InventoryEngineInfo inventoryEngineInfo;
+    private DetectionEngineInfo detectionEngineInfo;
 
-    private Manifest Manifest;
+    private Manifest manifest;
 
     public AssessmentData.ScanInfo getScanInfo() {
-        return ScanInfo;
+        return scanInfo;
     }
 
     public void setScanInfo(AssessmentData.ScanInfo scanInfo) {
-        ScanInfo = scanInfo;
+        this.scanInfo = scanInfo;
     }
 
     public AssessmentData.ImageInfo getImageInfo() {
-        return ImageInfo;
+        return imageInfo;
     }
 
     public void setImageInfo(AssessmentData.ImageInfo imageInfo) {
-        ImageInfo = imageInfo;
+        this.imageInfo = imageInfo;
     }
 
     public AssessmentData.Config getConfig() {
-        return Config;
+        return config;
     }
 
     public void setConfig(AssessmentData.Config config) {
-        Config = config;
+        this.config = config;
     }
 
-    public AssessmentData.OSInfo getOSInfo() {
-        return OSInfo;
+    public AssessmentData.OSInfo getOsInfo() {
+        return osInfo;
     }
 
-    public void setOSInfo(AssessmentData.OSInfo OSInfo) {
-        this.OSInfo = OSInfo;
+    public void setOsInfo(AssessmentData.OSInfo osInfo) {
+        this.osInfo = osInfo;
     }
 
     public ArrayList<AssessmentData.Vulnerabilities> getVulnerabilities() {
-        return Vulnerabilities;
+        return vulnerabilities;
     }
 
     public void setVulnerabilities(ArrayList<AssessmentData.Vulnerabilities> vulnerabilities) {
-        Vulnerabilities = vulnerabilities;
+        this.vulnerabilities = vulnerabilities;
     }
 
     public ArrayList<AssessmentData.Detections> getDetections() {
-        return Detections;
+        return detections;
     }
 
     public void setDetections(ArrayList<AssessmentData.Detections> detections) {
-        Detections = detections;
+        this.detections = detections;
     }
 
     public ArrayList<AssessmentData.Layers> getLayers() {
-        return Layers;
+        return layers;
     }
 
     public void setLayers(ArrayList<AssessmentData.Layers> layers) {
-        Layers = layers;
+        this.layers = layers;
     }
 
     public ArrayList<AssessmentData.Packages> getPackages() {
-        return Packages;
+        return packages;
     }
 
     public void setPackages(ArrayList<AssessmentData.Packages> packages) {
-        Packages = packages;
+        this.packages = packages;
     }
 
-    public ArrayList<AssessmentData.ELFBinaries> getELFBinaries() {
-        return ELFBinaries;
+    public ArrayList<AssessmentData.ELFBinaries> getElfBinaries() {
+        return elfBinaries;
     }
 
-    public void setELFBinaries(ArrayList<AssessmentData.ELFBinaries> ELFBinaries) {
-        this.ELFBinaries = ELFBinaries;
+    public void setElfBinaries(ArrayList<AssessmentData.ELFBinaries> elfBinaries) {
+        this.elfBinaries = elfBinaries;
     }
 
     public AssessmentData.InventoryEngineInfo getInventoryEngineInfo() {
-        return InventoryEngineInfo;
+        return inventoryEngineInfo;
     }
 
     public void setInventoryEngineInfo(AssessmentData.InventoryEngineInfo inventoryEngineInfo) {
-        InventoryEngineInfo = inventoryEngineInfo;
+        this.inventoryEngineInfo = inventoryEngineInfo;
     }
 
     public AssessmentData.DetectionEngineInfo getDetectionEngineInfo() {
-        return DetectionEngineInfo;
+        return detectionEngineInfo;
     }
 
     public void setDetectionEngineInfo(AssessmentData.DetectionEngineInfo detectionEngineInfo) {
-        DetectionEngineInfo = detectionEngineInfo;
+        this.detectionEngineInfo = detectionEngineInfo;
     }
 
-    public AssessmentData.Manifest getManifest() { return Manifest; }
+    public AssessmentData.Manifest getManifest() { return manifest; }
 
     public void setManifest(AssessmentData.Manifest manifest) {
-        Manifest = manifest;
+        this.manifest = manifest;
     }
 
     public int vulnerabilitiesCriticalCount() {
         int count = 0;
-        if(Vulnerabilities != null) {
-            for (Vulnerabilities vuls : Vulnerabilities) {
-                Vulnerabilities.Vulnerability vul = vuls.Vulnerability;
-                if(vul != null && vul.Details != null && vul.Details.severity.equalsIgnoreCase("CRITICAL")) {
+        if(vulnerabilities != null) {
+            for (Vulnerabilities vuls : vulnerabilities) {
+                Vulnerabilities.Vulnerability vul = vuls.vulnerability;
+                if(vul != null && vul.details != null && vul.details.severity.equalsIgnoreCase("CRITICAL")) {
                     count++;
                 }
             }
@@ -139,9 +139,9 @@ public class AssessmentData {
 
     public int vulnerabilitiesRemediationsCount() {
         int count = 0;
-        if(Vulnerabilities != null) {
-            for (Vulnerabilities vuls : Vulnerabilities) {
-                Vulnerabilities.Vulnerability vul = vuls.Vulnerability;
+        if(vulnerabilities != null) {
+            for (Vulnerabilities vuls : vulnerabilities) {
+                Vulnerabilities.Vulnerability vul = vuls.vulnerability;
                 if (vul != null) {
                     count += vul.remediationsCount();
                 }
@@ -155,13 +155,13 @@ public class AssessmentData {
         for (String s : severitiesList) {
             severities.put(s.toUpperCase(), 0);
         }
-        if (Vulnerabilities != null) {
-            for (Vulnerabilities vuls : Vulnerabilities) {
-                if (vuls.Vulnerability != null) {
-                    Vulnerabilities.Vulnerability vul = vuls.Vulnerability;
-                    if (vul.Details != null) {
-                        Integer currCount = severities.getOrDefault(vul.Details.severity.toUpperCase(), 0);
-                        severities.put(vul.Details.severity.toUpperCase(), currCount + 1);
+        if (vulnerabilities != null) {
+            for (Vulnerabilities vuls : vulnerabilities) {
+                if (vuls.vulnerability != null) {
+                    Vulnerabilities.Vulnerability vul = vuls.vulnerability;
+                    if (vul.details != null) {
+                        Integer currCount = severities.getOrDefault(vul.details.severity.toUpperCase(), 0);
+                        severities.put(vul.details.severity.toUpperCase(), currCount + 1);
                     }
                 }
             }
@@ -172,10 +172,10 @@ public class AssessmentData {
 
     public ArrayList<AssessmentData.Vulnerabilities.Vulnerability> vulnerabilityBySeverity(String severity) {
         ArrayList<AssessmentData.Vulnerabilities.Vulnerability> vulns = new ArrayList<>();
-        if(Vulnerabilities != null) {
-            for (Vulnerabilities vuls : Vulnerabilities) {
-                Vulnerabilities.Vulnerability vul = vuls.Vulnerability;
-                if (vul != null && vul.Details != null && vul.Details.severity.equalsIgnoreCase(severity))
+        if(vulnerabilities != null) {
+            for (Vulnerabilities vuls : vulnerabilities) {
+                Vulnerabilities.Vulnerability vul = vuls.vulnerability;
+                if (vul != null && vul.details != null && vul.details.severity.equalsIgnoreCase(severity))
                     vulns.add(vul);
             }
         }
@@ -184,10 +184,10 @@ public class AssessmentData {
     }
 
     public String vulnerabilityCVEIDByLayer(Layers layer) {
-        if (Vulnerabilities != null) {
-            for (Vulnerabilities vul : Vulnerabilities) {
-                if (vul.Vulnerability != null && vul.Vulnerability.LayerHash.equalsIgnoreCase(layer.Digest))
-                    return vul.Vulnerability.CVEID;
+        if (vulnerabilities != null) {
+            for (Vulnerabilities vul : vulnerabilities) {
+                if (vul.vulnerability != null && vul.vulnerability.layerHash.equalsIgnoreCase(layer.digest))
+                    return vul.vulnerability.cveid;
             }
         }
 
@@ -285,26 +285,26 @@ public class AssessmentData {
 
     public String toString() {
         return
-                "Scan Info: " + this.ScanInfo.toString() + "\n" +
-                        "Image Info: " + this.ImageInfo.toString() + "\n" +
-                        "Config: " + this.Config.toString() + "\n" +
-                        "OS Info: " + this.OSInfo.toString() + "\n" +
-                        "Vulnerabilities: " + this.Vulnerabilities.toString() + "\n" +
-                        "Detections: " + this.Detections.toString() + "\n" +
-                        "Layers: " + this.Layers.toString() + "\n" +
-                        "Packages: " + this.Packages.toString() + "\n" +
-                        "ELF Binaries: " + this.ELFBinaries.toString() + "\n" +
-                        "Inventory Engine Info: " + this.InventoryEngineInfo.toString() + "\n" +
-                        "Detection Engine Info: " + this.DetectionEngineInfo.toString();
+                "Scan Info: " + this.scanInfo.toString() + "\n" +
+                        "Image Info: " + this.imageInfo.toString() + "\n" +
+                        "Config: " + this.config.toString() + "\n" +
+                        "OS Info: " + this.osInfo.toString() + "\n" +
+                        "Vulnerabilities: " + this.vulnerabilities.toString() + "\n" +
+                        "Detections: " + this.detections.toString() + "\n" +
+                        "Layers: " + this.layers.toString() + "\n" +
+                        "Packages: " + this.packages.toString() + "\n" +
+                        "ELF Binaries: " + this.elfBinaries.toString() + "\n" +
+                        "Inventory Engine Info: " + this.inventoryEngineInfo.toString() + "\n" +
+                        "Detection Engine Info: " + this.detectionEngineInfo.toString();
     }
 
     public static class ScanInfo {
         private String cid;
-        private String Username;
-        private String UserUUID;
-        private String ScanUUID;
-        private String CorrelationUUID;
-        private String RequestedAt;
+        private String username;
+        private String userUUID;
+        private String scanUUID;
+        private String correlationUUID;
+        private String requestedAt;
 
         public String getCid() {
             return cid;
@@ -315,133 +315,133 @@ public class AssessmentData {
         }
 
         public String getUsername() {
-            return Username;
+            return username;
         }
 
         public void setUsername(String username) {
-            Username = username;
+            this.username = username;
         }
 
         public String getUserUUID() {
-            return UserUUID;
+            return userUUID;
         }
 
         public void setUserUUID(String userUUID) {
-            UserUUID = userUUID;
+            this.userUUID = userUUID;
         }
 
         public String getScanUUID() {
-            return ScanUUID;
+            return scanUUID;
         }
 
         public void setScanUUID(String scanUUID) {
-            ScanUUID = scanUUID;
+            this.scanUUID = scanUUID;
         }
 
         public String getCorrelationUUID() {
-            return CorrelationUUID;
+            return correlationUUID;
         }
 
         public void setCorrelationUUID(String correlationUUID) {
-            CorrelationUUID = correlationUUID;
+            this.correlationUUID = correlationUUID;
         }
 
         public String getRequestedAt() {
-            return RequestedAt;
+            return requestedAt;
         }
 
         public void setRequestedAt(String requestedAt) {
-            RequestedAt = requestedAt;
+            this.requestedAt = requestedAt;
         }
 
         public String getRequestedAtFormatted() {
-            return timeFormat(RequestedAt);
+            return timeFormat(requestedAt);
         }
 
         public String toString() {
             return
                     "cid : " + cid + "\n" +
-                            "username : " + Username + "\n" +
-                            "userUUID : " + UserUUID + "\n" +
-                            "scanUUID : " + ScanUUID + "\n" +
-                            "correlationUUID : " + CorrelationUUID + "\n" +
-                            "requestedAt : " + RequestedAt;
+                            "username : " + username + "\n" +
+                            "userUUID : " + userUUID + "\n" +
+                            "scanUUID : " + scanUUID + "\n" +
+                            "correlationUUID : " + correlationUUID + "\n" +
+                            "requestedAt : " + requestedAt;
         }
     }
 
     public static class ImageInfo {
-        private String Registry;
-        private String Repository;
-        private String Tag;
-        private String ID;
-        private String Digest;
-        private String Size;
-        private String CreatedAt;
-        private String Architecture;
+        private String registry;
+        private String repository;
+        private String tag;
+        private String id;
+        private String digest;
+        private String size;
+        private String createdAt;
+        private String architecture;
         private String scan_request_s3_key;
 
         public String getRegistry() {
-            return Registry;
+            return registry;
         }
 
         public void setRegistry(String registry) {
-            Registry = registry;
+            this.registry = registry;
         }
 
         public String getRepository() {
-            return Repository;
+            return repository;
         }
 
         public void setRepository(String repository) {
-            Repository = repository;
+            this.repository = repository;
         }
 
         public String getTag() {
-            return Tag;
+            return tag;
         }
 
         public void setTag(String tag) {
-            Tag = tag;
+            this.tag = tag;
         }
 
         public String getId() {
-            return ID;
+            return id;
         }
 
         public void setId(String ID) {
-            this.ID = ID;
+            this.id = ID;
         }
 
         public String getDigest() {
-            return Digest;
+            return digest;
         }
 
         public void setDigest(String digest) {
-            Digest = digest;
+            this.digest = digest;
         }
 
         public String getSize() {
-            return Size;
+            return size;
         }
 
         public void setSize(String size) {
-            Size = size;
+            this.size = size;
         }
 
         public String getCreatedAt() {
-            return timeFormat(CreatedAt);
+            return timeFormat(createdAt);
         }
 
         public void setCreatedAt(String createdAt) {
-            CreatedAt = createdAt;
+            this.createdAt = createdAt;
         }
 
         public String getArchitecture() {
-            return Architecture;
+            return architecture;
         }
 
         public void setArchitecture(String architecture) {
-            Architecture = architecture;
+            this.architecture = architecture;
         }
 
         public String getScan_request_s3_key() {
@@ -454,14 +454,14 @@ public class AssessmentData {
 
         public String toString() {
             return
-                    "registry: " + Registry + "\n" +
-                            "repository: " + Repository + "\n" +
-                            "tag: " + Tag + "\n" +
-                            "id: " + ID + "\n" +
-                            "digest: " + Digest + "\n" +
-                            "size: " + Size + "\n" +
-                            "createdAt: " + CreatedAt + "\n" +
-                            "architecture: " + Architecture + "\n" +
+                    "registry: " + registry + "\n" +
+                            "repository: " + repository + "\n" +
+                            "tag: " + tag + "\n" +
+                            "id: " + id + "\n" +
+                            "digest: " + digest + "\n" +
+                            "size: " + size + "\n" +
+                            "createdAt: " + createdAt + "\n" +
+                            "architecture: " + architecture + "\n" +
                             "scanRequestS3Key: " + scan_request_s3_key;
         }
     }
@@ -504,121 +504,121 @@ public class AssessmentData {
     }
 
     public static class OSInfo {
-        private String Name;
-        private String Version;
+        private String name;
+        private String version;
 
         public String getName() {
-            return Name;
+            return name;
         }
 
         public void setName(String name) {
-            Name = name;
+            this.name = name;
         }
 
         public String getVersion() {
-            return Version;
+            return version;
         }
 
         public void setVersion(String version) {
-            Version = version;
+            this.version = version;
         }
 
         public String toString() {
             return
-                    "name: " + Name + "\n" +
-                            "version: " + Version;
+                    "name: " + name + "\n" +
+                            "version: " + version;
         }
     }
 
     public static class Vulnerabilities {
-        private Vulnerability Vulnerability;
+        private Vulnerability vulnerability;
 
         public AssessmentData.Vulnerabilities.Vulnerability getVulnerability() {
-            return Vulnerability;
+            return vulnerability;
         }
 
         public void setVulnerability(AssessmentData.Vulnerabilities.Vulnerability vulnerability) {
-            Vulnerability = vulnerability;
+            this.vulnerability = vulnerability;
         }
 
         public static class Vulnerability {
-            private String CVEID;
-            private String LayerHash;
-            private String FirstSeen;
-            private Product Product;
-            private String ContentDataHash;
-            private ArrayList<String> Remediation;
-            private Details Details;
-            private ExploitedDetails ExploitedDetails;
+            private String cveid;
+            private String layerHash;
+            private String firstSeen;
+            private Product product;
+            private String contentDataHash;
+            private ArrayList<String> remediation;
+            private Details details;
+            private ExploitedDetails exploitedDetails;
 
-            public String getCVEID() {
-                return CVEID;
+            public String getCveid() {
+                return cveid;
             }
 
-            public void setCVEID(String CVEID) {
-                this.CVEID = CVEID;
+            public void setCveid(String cveid) {
+                this.cveid = cveid;
             }
 
             public String getLayerHash() {
-                return LayerHash;
+                return layerHash;
             }
 
             public void setLayerHash(String layerHash) {
-                LayerHash = layerHash;
+                this.layerHash = layerHash;
             }
 
             public String getFirstSeen() {
-                return timeFormat(FirstSeen);
+                return timeFormat(firstSeen);
             }
 
             public void setFirstSeen(String firstSeen) {
-                FirstSeen = firstSeen;
+                this.firstSeen = firstSeen;
             }
 
             public AssessmentData.Vulnerabilities.Vulnerability.Product getProduct() {
-                return Product;
+                return product;
             }
 
             public void setProduct(AssessmentData.Vulnerabilities.Vulnerability.Product product) {
-                Product = product;
+                this.product = product;
             }
 
             public String getContentDataHash() {
-                return ContentDataHash;
+                return contentDataHash;
             }
 
             public void setContentDataHash(String contentDataHash) {
-                ContentDataHash = contentDataHash;
+                this.contentDataHash = contentDataHash;
             }
 
             public ArrayList<String> getRemediation() {
-                return Remediation;
+                return remediation;
             }
 
             public void setRemediation(ArrayList<String> remediation) {
-                Remediation = remediation;
+                this.remediation = remediation;
             }
 
             public AssessmentData.Vulnerabilities.Vulnerability.Details getDetails() {
-                return Details;
+                return details;
             }
 
             public void setDetails(AssessmentData.Vulnerabilities.Vulnerability.Details details) {
-                Details = details;
+                this.details = details;
             }
 
             public AssessmentData.Vulnerabilities.Vulnerability.ExploitedDetails getExploitedDetails() {
-                return ExploitedDetails;
+                return exploitedDetails;
             }
 
             public void setExploitedDetails(AssessmentData.Vulnerabilities.Vulnerability.ExploitedDetails exploitedDetails) {
-                ExploitedDetails = exploitedDetails;
+                this.exploitedDetails = exploitedDetails;
             }
 
             public int remediationsCount() {
                 int count = 0;
-                if (Remediation != null) {
-                    for (String s : Remediation) {
+                if (remediation != null) {
+                    for (String s : remediation) {
                         if (!isHash(s)) {
                             count++;
                         }
@@ -635,8 +635,8 @@ public class AssessmentData {
 
             public ArrayList<String> getRemediationsIfNotHash() {
                 ArrayList<String> remediations = new ArrayList<>();
-                if (Remediation != null) {
-                    for (String s : Remediation) {
+                if (remediation != null) {
+                    for (String s : remediation) {
                         if (!isHash(s)) {
                             remediations.add(s);
                         }
@@ -647,14 +647,14 @@ public class AssessmentData {
             }
 
             public static class Product {
-                private String PackageSource;
+                private String packageSource;
 
                 public String getPackageSource() {
-                    return PackageSource;
+                    return packageSource;
                 }
 
                 public void setPackageSource(String PackageSource) {
-                    this.PackageSource = PackageSource;
+                    this.packageSource = PackageSource;
                 }
             }
 
@@ -766,159 +766,159 @@ public class AssessmentData {
             }
 
             public static class References {
-                private String URL;
-                private ArrayList<String> Tags;
+                private String url;
+                private ArrayList<String> tags;
 
-                public String getURL() {
-                    return URL;
+                public String getUrl() {
+                    return url;
                 }
 
-                public void setURL(String URL) {
-                    this.URL = URL;
+                public void setUrl(String url) {
+                    this.url = url;
                 }
 
                 public ArrayList<String> getTags() {
-                    return Tags;
+                    return tags;
                 }
 
                 public void setTags(ArrayList<String> Tags) {
-                    this.Tags = Tags;
+                    this.tags = Tags;
                 }
             }
         }
     }
 
     public static class Detections {
-        private Detection Detection;
+        private Detection detection;
 
         public AssessmentData.Detections.Detection getDetection() {
-            return Detection;
+            return detection;
         }
 
         public void setDetection(AssessmentData.Detections.Detection detection) {
-            Detection = detection;
+            this.detection = detection;
         }
 
         public String toString() {
-            return Detection.toString();
+            return detection.toString();
         }
 
         public static class Detection {
-            private String ID;
-            private String Type;
-            private String Name;
-            private String Title;
-            private String Description;
-            private String Remediation;
-            private String Severity;
+            private String id;
+            private String type;
+            private String name;
+            private String title;
+            private String description;
+            private String remediation;
+            private String severity;
 
             public String getId() {
-                return ID;
+                return id;
             }
 
             public void setId(String ID) {
-                this.ID = ID;
+                this.id = ID;
             }
 
             public String getType() {
-                return Type;
+                return type;
             }
 
             public void setType(String type) {
-                Type = type;
+                this.type = type;
             }
 
             public String getName() {
-                return Name;
+                return name;
             }
 
             public void setName(String name) {
-                Name = name;
+                this.name = name;
             }
 
             public String getTitle() {
-                return Title;
+                return title;
             }
 
             public void setTitle(String title) {
-                Title = title;
+                this.title = title;
             }
 
             public String getDescription() {
-                return Description;
+                return description;
             }
 
             public void setDescription(String description) {
-                Description = description;
+                this.description = description;
             }
 
             public String getRemediation() {
-                return Remediation;
+                return remediation;
             }
 
             public void setRemediation(String remediation) {
-                Remediation = remediation;
+                this.remediation = remediation;
             }
 
             public String getSeverity() {
-                return Severity;
+                return severity;
             }
 
             public void setSeverity(String severity) {
-                Severity = severity;
+                this.severity = severity;
             }
 
             public String toString() {
                 return
-                        "ID: " + ID + "\n" +
-                                "type: " + Type + "\n" +
-                                "name: " + Name + "\n" +
-                                "title: " + Title + "\n" +
-                                "description: " + Description + "\n" +
-                                "remediation: " + Remediation + "\n" +
-                                "severity: " + Severity;
+                        "ID: " + id + "\n" +
+                                "type: " + type + "\n" +
+                                "name: " + name + "\n" +
+                                "title: " + title + "\n" +
+                                "description: " + description + "\n" +
+                                "remediation: " + remediation + "\n" +
+                                "severity: " + severity;
             }
         }
     }
 
     public static class Layers {
-        private String Digest;
-        private String Size;
-        private String CreatedAt;
-        private String CreatedBy;
+        private String digest;
+        private String size;
+        private String createdAt;
+        private String createdBy;
         private String type;
         private String layer_inventory_s3_key;
 
         public String getDigest() {
-            return Digest;
+            return digest;
         }
 
         public void setDigest(String digest) {
-            Digest = digest;
+            this.digest = digest;
         }
 
         public String getSize() {
-            return Size;
+            return size;
         }
 
         public void setSize(String size) {
-            Size = size;
+            this.size = size;
         }
 
         public String getCreatedAt() {
-            return timeFormat(CreatedAt);
+            return timeFormat(createdAt);
         }
 
         public void setCreatedAt(String createdAt) {
-            CreatedAt = createdAt;
+            this.createdAt = createdAt;
         }
 
         public String getCreatedBy() {
-            return CreatedBy;
+            return createdBy;
         }
 
         public void setCreatedBy(String createdBy) {
-            CreatedBy = createdBy;
+            this.createdBy = createdBy;
         }
 
         public String getType() {
@@ -939,194 +939,194 @@ public class AssessmentData {
     }
 
     public static class Packages {
-        private String Vendor;
-        private String Product;
-        private String MajorVersion;
-        private String SoftwareArchitecture;
-        private String PackageProvider;
-        private String PackageSource;
-        private String LayerHash;
-        private int LayerIndex;
+        private String vendor;
+        private String product;
+        private String majorVersion;
+        private String softwareArchitecture;
+        private String packageProvider;
+        private String packageSource;
+        private String layerHash;
+        private int layerIndex;
 
         public String getVendor() {
-            return Vendor;
+            return vendor;
         }
 
         public void setVendor(String vendor) {
-            Vendor = vendor;
+            this.vendor = vendor;
         }
 
         public String getProduct() {
-            return Product;
+            return product;
         }
 
         public void setProduct(String product) {
-            Product = product;
+            this.product = product;
         }
 
         public String getMajorVersion() {
-            return MajorVersion;
+            return majorVersion;
         }
 
         public void setMajorVersion(String majorVersion) {
-            MajorVersion = majorVersion;
+            this.majorVersion = majorVersion;
         }
 
         public String getSoftwareArchitecture() {
-            return SoftwareArchitecture;
+            return softwareArchitecture;
         }
 
         public void setSoftwareArchitecture(String softwareArchitecture) {
-            SoftwareArchitecture = softwareArchitecture;
+            this.softwareArchitecture = softwareArchitecture;
         }
 
         public String getPackageProvider() {
-            return PackageProvider;
+            return packageProvider;
         }
 
         public void setPackageProvider(String packageProvider) {
-            PackageProvider = packageProvider;
+            this.packageProvider = packageProvider;
         }
 
         public String getPackageSource() {
-            return PackageSource;
+            return packageSource;
         }
 
         public void setPackageSource(String packageSource) {
-            PackageSource = packageSource;
+            this.packageSource = packageSource;
         }
 
         public String getLayerHash() {
-            return LayerHash;
+            return layerHash;
         }
 
         public void setLayerHash(String layerHash) {
-            LayerHash = layerHash;
+            this.layerHash = layerHash;
         }
 
         public int getLayerIndex() {
-            return LayerIndex;
+            return layerIndex;
         }
 
         public void setLayerIndex(int layerIndex) {
-            LayerIndex = layerIndex;
+            this.layerIndex = layerIndex;
         }
     }
 
     public static class ELFBinaries {
-        private String Path;
-        private String Hash;
-        private int Size;
-        private String Permissions;
-        private String Details;
-        private boolean Malicious;
+        private String path;
+        private String hash;
+        private int size;
+        private String permissions;
+        private String details;
+        private boolean malicious;
 
         public String getPath() {
-            return Path;
+            return path;
         }
 
         public void setPath(String path) {
-            Path = path;
+            this.path = path;
         }
 
         public String getHash() {
-            return Hash;
+            return hash;
         }
 
         public void setHash(String hash) {
-            Hash = hash;
+            this.hash = hash;
         }
 
         public int getSize() {
-            return Size;
+            return size;
         }
 
         public void setSize(int size) {
-            Size = size;
+            this.size = size;
         }
 
         public String getPermissions() {
-            return Permissions;
+            return permissions;
         }
 
         public void setPermissions(String permissions) {
-            Permissions = permissions;
+            this.permissions = permissions;
         }
 
         public String getDetails() {
-            return Details;
+            return details;
         }
 
         public void setDetails(String details) {
-            Details = details;
+            this.details = details;
         }
 
         public boolean isMalicious() {
-            return Malicious;
+            return malicious;
         }
 
         public void setMalicious(boolean malicious) {
-            Malicious = malicious;
+            this.malicious = malicious;
         }
     }
 
     public static class InventoryEngineInfo {
-        private String CollectedAt;
-        private String EngineVersion;
-        private String CWPPScannerVersion;
-        private String ELFModelVersion;
+        private String collectedAt;
+        private String engineVersion;
+        private String cwppScannerVersion;
+        private String elfModelVersion;
 
         public String getCollectedAt() {
-            return timeFormat(CollectedAt);
+            return timeFormat(collectedAt);
         }
 
         public void setCollectedAt(String collectedAt) {
-            CollectedAt = collectedAt;
+            this.collectedAt = collectedAt;
         }
 
         public String getEngineVersion() {
-            return EngineVersion;
+            return engineVersion;
         }
 
         public void setEngineVersion(String engineVersion) {
-            EngineVersion = engineVersion;
+            this.engineVersion = engineVersion;
         }
 
-        public String getCWPPScannerVersion() {
-            return CWPPScannerVersion;
+        public String getCwppScannerVersion() {
+            return cwppScannerVersion;
         }
 
-        public void setCWPPScannerVersion(String CWPPScannerVersion) {
-            this.CWPPScannerVersion = CWPPScannerVersion;
+        public void setCwppScannerVersion(String cwppScannerVersion) {
+            this.cwppScannerVersion = cwppScannerVersion;
         }
 
-        public String getELFModelVersion() {
-            return ELFModelVersion;
+        public String getElfModelVersion() {
+            return elfModelVersion;
         }
 
-        public void setELFModelVersion(String ELFModelVersion) {
-            this.ELFModelVersion = ELFModelVersion;
+        public void setElfModelVersion(String elfModelVersion) {
+            this.elfModelVersion = elfModelVersion;
         }
     }
 
     public static class DetectionEngineInfo {
-        private String PerformedAt;
-        private String EngineVersion;
+        private String performedAt;
+        private String engineVersion;
 
         public String getPerformedAt() {
-            return timeFormat(PerformedAt);
+            return timeFormat(performedAt);
         }
 
         public void setPerformedAt(String performedAt) {
-            PerformedAt = performedAt;
+            this.performedAt = performedAt;
         }
 
         public String getEngineVersion() {
-            return EngineVersion;
+            return engineVersion;
         }
 
         public void setEngineVersion(String engineVersion) {
-            EngineVersion = engineVersion;
+            this.engineVersion = engineVersion;
         }
     }
 

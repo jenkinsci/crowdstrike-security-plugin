@@ -31,6 +31,8 @@ public class CrowdStrikeSecurityBuilder extends Builder implements SimpleBuildSt
 
     private boolean enforce;
 
+    private boolean skipImageUpload;
+
     private String imageName;
 
     private String imageTag;
@@ -38,14 +40,17 @@ public class CrowdStrikeSecurityBuilder extends Builder implements SimpleBuildSt
     private Integer timeout;
 
     @DataBoundConstructor
-    public CrowdStrikeSecurityBuilder(String imageName, String imageTag, boolean enforce, Integer timeout){
+    public CrowdStrikeSecurityBuilder(String imageName, String imageTag, boolean enforce, boolean skipImageUpload, Integer timeout){
         this.imageName = imageName;
         this.imageTag = imageTag;
         this.enforce = enforce;
+        this.skipImageUpload = skipImageUpload;
         this.timeout = timeout;
     }
 
     public boolean getEnforce() { return enforce; }
+
+    public boolean getSkipImageUpload() { return skipImageUpload; }
 
     public String getImageName() { return imageName; }
 
@@ -65,6 +70,11 @@ public class CrowdStrikeSecurityBuilder extends Builder implements SimpleBuildSt
     @DataBoundSetter
     public void setEnforce(boolean enforce) {
         this.enforce = enforce;
+    }
+
+    @DataBoundSetter
+    public void setSkipImageUpload(boolean skipImageUpload) {
+        this.skipImageUpload = skipImageUpload;
     }
 
     @DataBoundSetter

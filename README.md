@@ -152,10 +152,10 @@ jobs:
               pipeline {
                   agent any
                   stages {
-                      stage('Stage 1') {
+                      stage('Scan image with CrowdStrike security') {
                           steps {
                               withCredentials([usernameColonPassword(credentialsId: 'INTEGRATION_ID', variable: '')]) {
-                                  crowdStrikeSecurity imageName: 'mongo', imageTag: 'bionic', enforce: true, timeout: 60
+                                  crowdStrikeSecurity imageName: 'mongo', imageTag: 'bionic', enforce: true, skipImageUpload: true, timeout: 60
                               }
                           }
                       }
@@ -171,6 +171,7 @@ jobs:
           steps {
               crowdStrikeSecurity() {
                   enforce(true)
+                  skipImageUpload(true)
                   imageName('mongo')
                   imageTag('bionic')
                   timeout(60)
@@ -195,15 +196,15 @@ These settings must be specified for each Jenkins job, where the plugin is inten
 
 - Enter the following details:
     * For `When image does not comply with policy`, choose one:
-      * `Never fail builds` means Jenkins will ignore instructions from Falcon to block the build.  
+      * `Enforce the recommendation`: if Falcon policy is set to "Prevent", Jenkins will **enforce** this by failing the build.  
          (You will still receive an Image Assessment report.)
-      * `Perform action defined in our policy` means if Falcon policy is set to prevent, Jenkins will **enforce** this by failing the build.
+      * `Skip image upload`: Select this option only if the image is already uploaded to CrowdStrike as part of a previous step. When selected, the plugin will **not execute** `docker push`. It only retrieves the image scan report but does not upload the image to CrowdStrike for assessment.
     * Image to assess:
-        * `Image Name`; name of the docker image to `docker push`
-        * `Image Tag`; tag of the docker image to `docker push`
-        * `Timeout`; how to long to wait (in seconds) before failing build, if unable to communicate with Falcon API.
+        * `Image Name`: name of the docker image that will be scanned by CrowdStrike Image Assessment.
+        * `Image Tag`: tag of the docker image that will be scanned by CrowdStrike Image Assessment.
+        * `Timeout`: how to long to wait (in seconds) before failing build, if unable to communicate with Falcon API.
 
-**NOTICE:** Plugin assumes `docker` binary is installed and in `$PATH`, and that it is already configured to connect to a running Docker Engine, where images will be pulled-to/pushed-from.  
+**NOTICE:** if `Enforce the recommendation` option is not set, the plugin assumes `docker` binary is installed and in `$PATH`, and that it is already configured to connect to a running Docker Engine, where images will be pulled-to/pushed-from.  
 **NOTICE:** You may use environment `$VARIABLES` in the field values above. (e.g., if Docker image tag is incrementing per-build)
 
 ![Per job](docs/images/per_job_config.png)

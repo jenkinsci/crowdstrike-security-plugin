@@ -4,9 +4,11 @@
     <b>When CrowdStrike Falcon API recommends to prevent a build from progressing:</b>
 </f:block>
     <f:entry title="Enforce the recommendation" field="enforce">
-      <f:checkbox/>
+        <f:checkbox/>
     </f:entry>
-
+    <f:entry title="Skip image upload" field="skipImageUpload">
+        <f:checkbox/>
+    </f:entry>
     <f:block>
     <b>Image to assess:</b>
     </f:block>

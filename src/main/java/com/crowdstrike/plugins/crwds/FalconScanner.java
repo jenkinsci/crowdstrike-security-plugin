@@ -24,7 +24,7 @@ import java.util.concurrent.ExecutionException;
 public class FalconScanner {
 
     public int execute(FalconContext falconContext, String imageName, String imageTag, Integer timeout, String clientSecret,
-                       String clientId, String authDomain, Boolean neverFail, String artifactName, String uniqueId) throws IOException, InterruptedException, ExecutionException, NullPointerException {
+                       String clientId, String authDomain, Boolean neverFail, Boolean skipImageUpload, String artifactName, String uniqueId) throws IOException, InterruptedException, ExecutionException, NullPointerException {
 
         int BUILD_STATUS = ProcessCodes.BUILD_SUCCESS.getCode();
 
@@ -40,14 +40,16 @@ public class FalconScanner {
 
         falconContext.getLogger().println("[CRWDS::DEBUG] " + ProcessCodes.AUTHENTICATION_SUCCESS.getDescription() );
 
-        final Integer dockerLoginStatus = DockerUtils.dockerLogin(falconContext, clientId, clientSecret, registryUrl);
-        if(dockerLoginStatus < 0) {
-            return ProcessCodes.DOCKER_LOGIN_FAILURE.getCode();
-        }
+        if (!skipImageUpload) {
+            final Integer dockerLoginStatus = DockerUtils.dockerLogin(falconContext, clientId, clientSecret, registryUrl);
+            if(dockerLoginStatus < 0) {
+                return ProcessCodes.DOCKER_LOGIN_FAILURE.getCode();
+            }
 
-        final Integer dockerPushStatus = DockerUtils.dockerPush(falconContext, registryUrl, imageName, imageTag);
-        if(dockerPushStatus < 0) {
-            return ProcessCodes.DOCKER_PUSH_FAILURE.getCode();
+            final Integer dockerPushStatus = DockerUtils.dockerPush(falconContext, registryUrl, imageName, imageTag);
+            if(dockerPushStatus < 0) {
+                return ProcessCodes.DOCKER_PUSH_FAILURE.getCode();
+            }
         }
 
         String falconScanReport = getFalconReport(falconContext, accessToken, scanReportUrl, true);

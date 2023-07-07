@@ -4,6 +4,8 @@ public interface FalconConfiguration {
 
     boolean getEnforce();
 
+    boolean getSkipImageUpload();
+
     String getImageName();
 
     String getImageTag();

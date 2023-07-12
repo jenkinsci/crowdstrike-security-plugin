@@ -44,9 +44,9 @@
 		<connection>scm:git:ssh://github.com/jenkinsci/crowdstrike-security-plugin.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com/jenkinsci/crowdstrike-security-plugin.git</developerConnection>
 		<url>https://github.com/jenkinsci/crowdstrike-security-plugin</url>
-		<tag>crowdstrike-security-1.2.0</tag>
+		<tag>HEAD</tag>
 	</scm>
-	<version>1.2.0</version>
+	<version>1.2.1-SNAPSHOT</version>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>

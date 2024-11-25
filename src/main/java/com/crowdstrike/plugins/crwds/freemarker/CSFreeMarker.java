@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 public class CSFreeMarker {
 
-    private static CSFreeMarker instance = null;
+    private static volatile CSFreeMarker instance = null;
     private Configuration cfg;
 
     private CSFreeMarker() throws IOException, URISyntaxException {
@@ -35,9 +35,13 @@ public class CSFreeMarker {
 
     public static CSFreeMarker getInstance() throws IOException, URISyntaxException {
 
-        if(instance == null)
-            instance = new CSFreeMarker();
-
+        if(instance == null){
+            synchronized (CSFreeMarker.class) {
+                if(instance == null){
+                    instance = new CSFreeMarker();
+                }
+            }
+        }
         return instance;
     }
 

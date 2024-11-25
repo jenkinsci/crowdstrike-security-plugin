@@ -12,16 +12,17 @@ import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
 public class CrowdStrikeSecurityAction implements RunAction2 {
-    
+
     private transient Run<?, ?> run;
 
     private final String artifactName;
 
     private final String urlSuffix;
 
-    public CrowdStrikeSecurityAction(String artifactName, String urlSuffix) {
+    public CrowdStrikeSecurityAction(String artifactName, String urlSuffix, Run<?, ?> run) {
         this.artifactName = artifactName;
         this.urlSuffix = urlSuffix;
+        this.run = run;
     }
 
     @Override

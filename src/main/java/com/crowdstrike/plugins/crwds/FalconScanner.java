@@ -35,7 +35,7 @@ public class FalconScanner {
         final String accessToken = getAccessToken(falconContext, clientId, clientSecret, authDomain, timeout);
         if (accessToken.equalsIgnoreCase(ProcessCodes.AUTHENTICATION_FAILURE.getDescription())) {
             falconContext.getLogger().println("[CRWDS::DEBUG] " + ProcessCodes.AUTHENTICATION_FAILURE.getDescription());
-             return ProcessCodes.AUTHENTICATION_FAILURE.getCode();
+            return ProcessCodes.AUTHENTICATION_FAILURE.getCode();
         }
 
         falconContext.getLogger().println("[CRWDS::DEBUG] " + ProcessCodes.AUTHENTICATION_SUCCESS.getDescription() );
@@ -98,16 +98,17 @@ public class FalconScanner {
                 FileUtils.createWorkSpaceArtifactAndArchive(context, policyReport, policyJson);
             }
             FileUtils.createWorkSpaceArtifactAndArchive(context, artifactName, html);
+        } catch (RuntimeException ex){
+            throw new AbortException("[CRWDS::ABORT] Failed to archive build artifacts" + ex.getMessage());
         } catch (Exception ex) {
             throw new AbortException("[CRWDS::ABORT] Failed to archive build artifacts - " + ex.getMessage());
         }
-
     }
 
     private void addSidebarLink(FalconContext context, String artifactName, String uniqueId) {
 
         Run<?, ?> run = context.getRun();
-        run.addOrReplaceAction(new CrowdStrikeSecurityAction(artifactName, uniqueId));
+        run.addOrReplaceAction(new CrowdStrikeSecurityAction(artifactName, uniqueId, run));
 
     }
 
@@ -148,12 +149,12 @@ public class FalconScanner {
 
             if(connection.getResponseCode() == 200 || connection.getResponseCode() == 201) {
                 String line;
-                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
                 StringBuilder content = new StringBuilder();
-                while((line = reader.readLine()) != null) {
-                    content.append(line);
+                try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
+                    while ((line = reader.readLine()) != null) {
+                        content.append(line);
+                    }
                 }
-                reader.close();
 
                 final JSONObject authResponseBodyJson = parseFromJsonString(String.valueOf(content));
                 return authResponseBodyJson.get("access_token").toString();

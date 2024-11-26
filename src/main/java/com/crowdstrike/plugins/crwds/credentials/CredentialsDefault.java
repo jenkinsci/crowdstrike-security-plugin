@@ -10,6 +10,8 @@ import org.kohsuke.stapler.DataBoundConstructor;
 
 public class CredentialsDefault extends BaseStandardCredentials implements FalconClientIdAndToken {
 
+    private static final long serialVersionUID = 1L;
+
     private final String clientID;
 
     private final Secret secret;

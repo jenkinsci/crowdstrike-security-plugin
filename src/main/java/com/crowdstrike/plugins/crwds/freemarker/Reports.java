@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class Reports {
 
-    private static Reports instance = null;
+    private static volatile Reports instance = null;
 
     private HashMap<String, Report> reportsList;
 
@@ -18,9 +18,13 @@ public class Reports {
     }
 
     public static Reports getInstance() {
-        if (instance == null)
-            instance = new Reports();
-
+        if(instance == null){
+            synchronized (Reports.class) {
+                if(instance == null){
+                    instance = new Reports();
+                }
+            }
+        }
         return instance;
     }
 
@@ -68,7 +72,7 @@ public class Reports {
         }
     }
 
-     public static class ReportData {
+    public static class ReportData {
 
         private String html;
         private String uniqueId;

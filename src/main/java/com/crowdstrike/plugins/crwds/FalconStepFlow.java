@@ -114,6 +114,8 @@ public class FalconStepFlow {
                 executor.shutdown();
             }
 
+        } catch (RuntimeException ex){
+            throw new AbortException("[CRWDS::ABORT]" + ex.getMessage() + " Build Status : " + scanResult.get());
         } catch (Exception ex) {
             if(!neverFail) {
                 throw new AbortException("[CRWDS::ABORT]" + ex.getMessage() + " Build Status : " + scanResult.get());

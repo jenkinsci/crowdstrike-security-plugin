@@ -631,7 +631,7 @@
                         </div>
                         <div class="form-field"><label class="type-md c-bal mb-1">Base OS</label>
                             <span class="type-lg c-tna mr-1">
-                                <span title="${(assessmentData.getOSInfo().getName())!}" class="type-truncate">${(assessmentData.getOSInfo().getName())!}</span>
+                                <span title="${(assessmentData.getOsInfo().getName())!}" class="type-truncate">${(assessmentData.getOsInfo().getName())!}</span>
                             </span>
                         </div>
                     </div>
@@ -662,7 +662,7 @@
                     <div class="form-col">
                         <div class="form-field"><label class="type-md c-bal mb-1">Image ID</label>
                             <span class="type-lg c-tna mr-1">
-                                <span title="${(assessmentData.getImageInfo().getID())!}" class="type-truncate">${(assessmentData.getImageInfo().getID())!}</span>
+                                <span title="${(assessmentData.getImageInfo().getId())!}" class="type-truncate">${(assessmentData.getImageInfo().getId())!}</span>
                             </span>
                         </div>
                         <div class="form-field"><label class="type-md c-bal mb-1">Image Digest</label>
@@ -885,7 +885,7 @@
                                                         <div class="vuln">
                                                             <input type="checkbox" id="vul-check${key}${vul?index}-${uniqueId}"/>
                                                             <label class="vul-label p-2" for="vul-check${key}${vul?index}-${uniqueId}">
-                                                                <span class="cell1" title="${(vul.getCVEID())!}">${(vul.getCVEID())!}</span>
+                                                                <span class="cell1" title="${(vul.getCveId())!}">${(vul.getCveId())!}</span>
                                                                 <span class="cell2" title="${(vul.getProduct().getPackageSource())!}">${(vul.getProduct().getPackageSource())!}</span>
                                                                 <span class="cell3">
                                                                     <span class="c-${(assessmentData.severityColor(key))!}" title="${(assessmentData.severityLabel(key))!}">${(assessmentData.severityLabel(key))!}</span>
@@ -895,7 +895,7 @@
                                                                     <span class="type-truncate" title="${(vul.getRemediationsIfNotHash()[0])!}">${(vul.getRemediationsIfNotHash()[0])!}</span>
                                                                 </span>
                                                                 <span class="cell6">
-                                                                    <#if (policyData.getFirstResource().getEvaluation_details().isCveIdInMatchedCveList(vul.getCVEID()))!false>
+                                                                    <#if (policyData.getFirstResource().getEvaluation_details().isCveIdInMatchedCveList(vul.getCveId()))!false>
                                                                         <span>${(assessmentData.getIconByType("success"))!}</span>
                                                                     </#if>
                                                                 </span>
@@ -914,8 +914,8 @@
                                                                                     </#list>
                                                                                 </div>
                                                                                 <a
-                                                                                    href=${reference.getURL()} target="_blank"
-                                                                                    class="url">${reference.getURL()}
+                                                                                    href=${reference.getUrl()} target="_blank"
+                                                                                    class="url">${reference.getUrl()}
                                                                                 </a>
                                                                             </div>
                                                                         </#list>
@@ -1033,7 +1033,7 @@
                                     </div>
                                     <div class="form-field"><label class="type-md c-bal mb-1">ELF Binaries</label>
                                         <span class="type-lg c-tna mr-1">
-                                            <span title="${(assessmentData.getELFBinaries()?size)!0}" class="type-truncate">${(assessmentData.getELFBinaries()?size)!0}</span>
+                                            <span title="${(assessmentData.getElfBinaries()?size)!0}" class="type-truncate">${(assessmentData.getElfBinaries()?size)!0}</span>
                                         </span>
                                     </div>
                                     <div class="form-field"><label class="type-md c-bal mb-1">Manifest</label>
@@ -1045,7 +1045,7 @@
                                 <div class="form-col">
                                     <div class="form-field"><label class="type-md c-bal mb-1">Inventory Engine</label>
                                         <span class="type-lg c-tna mr-1">
-                                            <span class="type-truncate" title="ver ${(assessmentData.getInventoryEngineInfo().getEngineVersion())!} | ${(assessmentData.getInventoryEngineInfo().getCWPPScannerVersion())!} | ${(assessmentData.getInventoryEngineInfo().getELFModelVersion())!}">ver ${(assessmentData.getInventoryEngineInfo().getEngineVersion())!} | ${(assessmentData.getInventoryEngineInfo().getCWPPScannerVersion())!} | ${(assessmentData.getInventoryEngineInfo().getELFModelVersion())!}</span>
+                                            <span class="type-truncate" title="ver ${(assessmentData.getInventoryEngineInfo().getEngineVersion())!} | ${(assessmentData.getInventoryEngineInfo().getCwppScannerVersion())!} | ${(assessmentData.getInventoryEngineInfo().getElfModelVersion())!}">ver ${(assessmentData.getInventoryEngineInfo().getEngineVersion())!} | ${(assessmentData.getInventoryEngineInfo().getCwppScannerVersion())!} | ${(assessmentData.getInventoryEngineInfo().getElfModelVersion())!}</span>
                                         </span>
                                     </div>
                                     <div class="form-field"><label class="type-md c-bal mb-1">Detection Engine</label>

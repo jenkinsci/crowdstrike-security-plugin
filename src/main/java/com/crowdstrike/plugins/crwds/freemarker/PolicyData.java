@@ -393,8 +393,8 @@ public class PolicyData {
         }
 
         public static class EvaluationDetails {
-            private ArrayList<String> matched_cve_list;
-            private ArrayList<String> excluded_cve_list;
+            private ArrayList<String> matched_cve_list = new ArrayList<>();
+            private ArrayList<String> excluded_cve_list = new ArrayList<>();
 
             public ArrayList<String> getMatched_cve_list() {
                 return matched_cve_list;
@@ -413,20 +413,22 @@ public class PolicyData {
             }
 
             public boolean isCveIdInExcludedCveList(String cveId) {
-                for (String s : excluded_cve_list) {
-                    if(cveId.equalsIgnoreCase(s))
-                        return true;
+                if (this.excluded_cve_list != null) {
+                    for (String s : this.excluded_cve_list) {
+                        if (cveId.equalsIgnoreCase(s))
+                            return true;
+                    }
                 }
-
                 return false;
             }
 
             public boolean isCveIdInMatchedCveList(String cveId) {
-                for (String s : matched_cve_list) {
-                    if(cveId.equalsIgnoreCase(s))
-                        return true;
+                if (this.matched_cve_list != null) {
+                    for (String s : this.matched_cve_list) {
+                        if (cveId.equalsIgnoreCase(s))
+                            return true;
+                    }
                 }
-
                 return false;
             }
         }

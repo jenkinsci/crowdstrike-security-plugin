@@ -48,21 +48,78 @@
 	<properties>
 		<changelist>-SNAPSHOT</changelist>
 		<gitHubRepo>jenkinsci/crowdstrike-security-plugin</gitHubRepo>
-		<jenkins.version>2.332.3</jenkins.version>
+		<jenkins.version>2.462.3</jenkins.version>
 
 		<spotbugs.effort>Max</spotbugs.effort>
 		<spotbugs.failOnError>true</spotbugs.failOnError>
 		<spotbugs.threshold>Low</spotbugs.threshold>
+
+		<kubernetes-credentials-provider.version>1.262.v2670ef7ea_0c5</kubernetes-credentials-provider.version>
+		<jenkins-credentials.version>1271.v54b_1c2c6388a_</jenkins-credentials.version>
+		<jenkins-jackson2-api.version>2.15.2-350.v0c2f3f8fc595</jenkins-jackson2-api.version>
+		<jenkins-bouncycastle-api.version>2.29</jenkins-bouncycastle-api.version>
+		<jenkins-okhttp-api.version>4.11.0-157.v6852a_a_fa_ec11</jenkins-okhttp-api.version>
+		<jenkins-variant.version>59.vf075fe829ccb</jenkins-variant.version>
+		<jenkins-structs.version>324.va_f5d6774f3a_d</jenkins-structs.version>
+		<jenkins-javax-activation-api.version>1.2.0-6</jenkins-javax-activation-api.version>
+		<jenkins-jaxb.version>2.3.8-1</jenkins-jaxb.version>
+		<jenkins-snakeyaml-api.version>1.33-95.va_b_a_e3e47b_fa_4</jenkins-snakeyaml-api.version>
+		<bouncycastle-api.version>2.30.1.78.1-233.vfdcdeb_0a_08a_a_</bouncycastle-api.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>io.jenkins.tools.bom</groupId>
-				<artifactId>bom-2.332.x</artifactId>
-				<version>1210.vcd41f6657f03</version>
+				<artifactId>bom-2.462.x</artifactId>
+				<version>4228.v0a_71308d905b_</version>
 				<type>pom</type>
 				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.jenkins-ci.plugins</groupId>
+				<artifactId>credentials</artifactId>
+				<version>${jenkins-credentials.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jenkins-ci.plugins</groupId>
+				<artifactId>jackson2-api</artifactId>
+				<version>${jenkins-jackson2-api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jenkins-ci.plugins</groupId>
+				<artifactId>bouncycastle-api</artifactId>
+				<version>${jenkins-bouncycastle-api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.jenkins.plugins</groupId>
+				<artifactId>okhttp-api</artifactId>
+				<version>${jenkins-okhttp-api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jenkins-ci.plugins</groupId>
+				<artifactId>variant</artifactId>
+				<version>${jenkins-variant.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jenkins-ci.plugins</groupId>
+				<artifactId>structs</artifactId>
+				<version>${jenkins-structs.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.jenkins.plugins</groupId>
+				<artifactId>javax-activation-api</artifactId>
+				<version>${jenkins-javax-activation-api.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.jenkins.plugins</groupId>
+				<artifactId>jaxb</artifactId>
+				<version>${jenkins-jaxb.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.jenkins.plugins</groupId>
+				<artifactId>snakeyaml-api</artifactId>
+				<version>${jenkins-snakeyaml-api.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -90,6 +147,19 @@
 			<artifactId>gson</artifactId>
 			<version>2.9.1</version>
 		</dependency>
+		<dependency>
+			<groupId>com.cloudbees.jenkins.plugins</groupId>
+			<artifactId>kubernetes-credentials-provider</artifactId>
+			<version>${kubernetes-credentials-provider.version}</version>
+			<optional>true</optional>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jenkins-ci.plugins</groupId>
+			<artifactId>bouncycastle-api</artifactId>
+			<version>${bouncycastle-api.version}</version>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 
 	<repositories>
@@ -116,6 +186,16 @@
 					<showWarnings>true</showWarnings>
 					<source>21</source>
 					<target>21</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.jenkins-ci.tools</groupId>
+				<artifactId>maven-hpi-plugin</artifactId>
+				<configuration>
+					<pluginFirstClassLoader>true</pluginFirstClassLoader>
+					<manifestEntries>
+						<Plugin-Dependencies>kubernetes-credentials-provider:${kubernetes-credentials-provider.version};resolution:=optional</Plugin-Dependencies>
+					</manifestEntries>
 				</configuration>
 			</plugin>
 		</plugins>

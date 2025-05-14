@@ -3,10 +3,7 @@ package com.crowdstrike.plugins.crwds.credentials;
 import com.cloudbees.jenkins.plugins.kubernetes_credentials_provider.CredentialsConvertionException;
 import com.cloudbees.jenkins.plugins.kubernetes_credentials_provider.SecretToCredentialConverter;
 import com.cloudbees.plugins.credentials.CredentialsScope;
-import com.cloudbees.plugins.credentials.CredentialsDescriptor;
 import com.cloudbees.plugins.credentials.common.IdCredentials;
-import com.cloudbees.plugins.credentials.common.StandardUsernamePasswordCredentials;
-import com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl;
 import hudson.Extension;
 import io.fabric8.kubernetes.api.model.Secret;
 import java.util.Base64;
@@ -96,8 +93,8 @@ public class KubernetesCredentialConverter extends SecretToCredentialConverter {
 
             LOGGER.log(Level.FINE, "Successfully converted secret: {0}", secretName);
 
-            // Create a wrapper credential that will be converted to CredentialsDefault
-            return new CredentialsDefaultWrapper(
+            // Create an actual CredentialsDefault instance
+            return new CredentialsDefault(
                 CredentialsScope.GLOBAL,
                 id,
                 description,
@@ -169,68 +166,5 @@ public class KubernetesCredentialConverter extends SecretToCredentialConverter {
                 .orElseThrow(() -> new CredentialsConvertionException(
                         String.format("No %s found in secret: %s", fieldName, secretName)));
         return new String(Base64.getDecoder().decode(encodedValue));
-    }
-
-    /**
-     * Wrapper class for CrowdStrike credentials to ensure they work properly with the
-     * Kubernetes Credentials Provider plugin.
-     * <p>
-     * This class extends UsernamePasswordCredentialsImpl to provide compatibility with
-     * the Jenkins credentials system while storing CrowdStrike-specific information.
-     * </p>
-     */
-    public static class CredentialsDefaultWrapper extends UsernamePasswordCredentialsImpl
-                                                   implements StandardUsernamePasswordCredentials {
-        private final String clientId;
-        private final String clientSecret;
-
-        /**
-         * Creates a new CredentialsDefaultWrapper.
-         *
-         * @param scope The credentials scope
-         * @param id The credential ID
-         * @param description The credential description
-         * @param clientId The CrowdStrike client ID
-         * @param clientSecret The CrowdStrike client secret
-         */
-        public CredentialsDefaultWrapper(CredentialsScope scope, String id, String description,
-                                        String clientId, String clientSecret) {
-            super(scope, id, description, clientId, clientSecret);
-            this.clientId = clientId;
-            this.clientSecret = clientSecret;
-        }
-
-        /**
-         * Gets the CrowdStrike client ID.
-         *
-         * @return The client ID
-         */
-        public String getClientId() {
-            return clientId;
-        }
-
-        /**
-         * Gets the CrowdStrike client secret.
-         *
-         * @return The client secret
-         */
-        public String getClientSecret() {
-            return clientSecret;
-        }
-
-        /**
-         * Descriptor for CredentialsDefaultWrapper.
-         * <p>
-         * This descriptor is required for the credential to be properly displayed
-         * in the Jenkins UI.
-         * </p>
-         */
-        @Extension
-        public static class DescriptorImpl extends CredentialsDescriptor {
-            @Override
-            public String getDisplayName() {
-                return "CrowdStrike Credentials (Kubernetes)";
-            }
-        }
     }
 }

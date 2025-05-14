@@ -3,6 +3,7 @@ package com.crowdstrike.plugins.crwds.credentials;
 import com.cloudbees.jenkins.plugins.kubernetes_credentials_provider.CredentialsConvertionException;
 import com.cloudbees.jenkins.plugins.kubernetes_credentials_provider.SecretToCredentialConverter;
 import com.cloudbees.plugins.credentials.CredentialsScope;
+import com.cloudbees.plugins.credentials.CredentialsDescriptor;
 import com.cloudbees.plugins.credentials.common.IdCredentials;
 import com.cloudbees.plugins.credentials.common.StandardUsernamePasswordCredentials;
 import com.cloudbees.plugins.credentials.impl.UsernamePasswordCredentialsImpl;
@@ -85,7 +86,7 @@ public class KubernetesCredentialConverter extends SecretToCredentialConverter {
     /**
      * Wrapper class for CredentialsDefault to avoid Secret type issues.
      */
-    private static class CredentialsDefaultWrapper extends UsernamePasswordCredentialsImpl
+    public static class CredentialsDefaultWrapper extends UsernamePasswordCredentialsImpl
                                                    implements StandardUsernamePasswordCredentials {
         private final String clientId;
         private final String clientSecret;
@@ -103,6 +104,17 @@ public class KubernetesCredentialConverter extends SecretToCredentialConverter {
 
         public String getClientSecret() {
             return clientSecret;
+        }
+
+        /**
+         * Descriptor for CredentialsDefaultWrapper.
+         */
+        @Extension
+        public static class DescriptorImpl extends CredentialsDescriptor {
+            @Override
+            public String getDisplayName() {
+                return "CrowdStrike Credentials (Kubernetes)";
+            }
         }
     }
 }

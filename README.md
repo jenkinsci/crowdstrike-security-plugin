@@ -8,12 +8,12 @@
 * In order to do this, CrowdStrike is offering solutions for developers at build time that allow them to assess their Docker container images and review summarized report data integrated with their favorite CI/CD tools like Jenkins.
 * Customers will use this feature by downloading from Falcon console, and following Falcon documentation to install our plugins on top of their existing self-hosted CI/CD solutions.
 * Customers will then generate a new authentication token within Falcon console, and configure their plugin to use this credential for communication with existing Falcon APIs.
-* Users of this plugin receive a unique HTML view of the Image Assessment report data embedded inside Jenkins. 
+* Users of this plugin receive a unique HTML view of the Image Assessment report data embedded inside Jenkins.
 * Users of this plugin can choose to use the information Falcon provides to actively abort the deployment of vulnerable container images as an in-line step in the build pipeline.
 
 ## About the Image Assessment feature
 
-**Image Assessment** is focused on identifying vulnerabilities in container images.   
+**Image Assessment** is focused on identifying vulnerabilities in container images.
 This plugin is leveraging that existing feature of Falcon via the Falcon API.
 
 For more information about CrowdStrike's Image Assessment feature:
@@ -43,7 +43,7 @@ For more information about CrowdStrike's Image Assessment feature:
   - Install the plugin.
 - #### Manual Installation
   - Download the latest stable release version of this plugin from Falcon console.
-      * `Falcon console > Support > Tool Downloads`  
+      * `Falcon console > Support > Tool Downloads`
       * Click to download `CrowdStrike Security for Jenkins` file archive.
       * Extract the `.zip` archive locally.
       * Look for the `.hpi` file which is the format of a Jenkins plugin.
@@ -80,7 +80,7 @@ You can fill them in manually, or use the automatic configuration option (ie. if
 
 - In Jenkins, navigate to `Manage Jenkins > Configure System > CrowdStrike Security`,
     * Select the `Credential ID` (generated above).
-    * Select a `Falcon Cloud` from the dropdown menu. 
+    * Select a `Falcon Cloud` from the dropdown menu.
     * Click the `Save` button.
 
 #### Q: What is the Falcon Cloud?
@@ -196,7 +196,7 @@ These settings must be specified for each Jenkins job, where the plugin is inten
 
 - Enter the following details:
     * For `When image does not comply with policy`, choose one:
-      * `Enforce the recommendation`: if Falcon policy is set to "Prevent", Jenkins will **enforce** this by failing the build.  
+      * `Enforce the recommendation`: if Falcon policy is set to "Prevent", Jenkins will **enforce** this by failing the build.
          (You will still receive an Image Assessment report.)
       * `Skip image upload`: Select this option only if the image is already uploaded to CrowdStrike as part of a previous step. When selected, the plugin will **not execute** `docker push`. It only retrieves the image scan report but does not upload the image to CrowdStrike for assessment.
     * Image to assess:
@@ -204,7 +204,7 @@ These settings must be specified for each Jenkins job, where the plugin is inten
         * `Image Tag`: tag of the docker image that will be scanned by CrowdStrike Image Assessment.
         * `Timeout`: how to long to wait (in seconds) before failing build, if unable to communicate with Falcon API.
 
-**NOTICE:** if `Enforce the recommendation` option is not set, the plugin assumes `docker` binary is installed and in `$PATH`, and that it is already configured to connect to a running Docker Engine, where images will be pulled-to/pushed-from.  
+**NOTICE:** if `Enforce the recommendation` option is not set, the plugin assumes `docker` binary is installed and in `$PATH`, and that it is already configured to connect to a running Docker Engine, where images will be pulled-to/pushed-from.
 **NOTICE:** You may use environment `$VARIABLES` in the field values above. (e.g., if Docker image tag is incrementing per-build)
 
 ![Per job](docs/images/per_job_config.png)
@@ -243,6 +243,32 @@ Schedule the job to run normally, and the report will be stored among the job ou
 
 ![Report Fail](docs/images/build_blocked.png)
 
+## Kubernetes Integration
+
+This plugin integrates with the [Kubernetes Credentials Provider Plugin](https://plugins.jenkins.io/kubernetes-credentials-provider/) to support automatic creation of CrowdStrike credentials from Kubernetes secrets.
+
+### Prerequisites
+- Jenkins running in a Kubernetes cluster
+- [Kubernetes Credentials Provider Plugin](https://plugins.jenkins.io/kubernetes-credentials-provider/) installed in Jenkins
+
+### Usage
+
+Create a Kubernetes secret with the following format:
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: crowdstrike-creds
+  annotations:
+    jenkins.io/credentials-description: "CrowdStrike API Credentials"
+  labels:
+    jenkins.io/credentials-type: com.crowdstrike.plugins.crwds.credentials.CredentialsDefault"
+type: Opaque
+data:
+  clientId: <base64-encoded-client-id>
+  clientSecret: <base64-encoded-client-secret>
+```
+
 ## Troubleshooting
 
 Symptom | Possible cause | Solution
@@ -271,11 +297,11 @@ Code | Name | Description
 ### Image
 
 If you want to double-check the vulnerabilities that are found in an existing container image,
-you can use the following tool. 
+you can use the following tool.
 
 #### CrowdStrike IVAN (Image Vulnerability Analysis):
 
-This tool is a command-line container image assessment tool that 
+This tool is a command-line container image assessment tool that
 looks for vulnerabilities in the Docker images.
 It unpacks the image locally, and uploads ONLY METADATA to Falcon, which then returns any known vulnerabilities.
 
@@ -296,14 +322,14 @@ and give them the Policy Name shown in the Image Assessment report data.
 ### Plugin
 
 If you suspect the plugin is the problem, you can try this alternative which is a command-line
-tool. It still talks to Falcon API, and the assessment happens remotely, but it doesn't require Jenkins 
+tool. It still talks to Falcon API, and the assessment happens remotely, but it doesn't require Jenkins
 or this plugin.
 
 Alternatively, you can use the exit code of this script to pass/fail your Jenkins builds.
 
 #### CrowdStrike Container Image Scan
 
-This Python script will upload your container image to Falcon API 
+This Python script will upload your container image to Falcon API
 and return the Image Assessment report data as JSON to stdout.
 This will tell you about known vulnerabilities, malware, and secrets found in the image layers.
 However, it does not support the Image Assessment Policy prevent/alert feature.
@@ -316,4 +342,4 @@ However, it does not support the Image Assessment Policy prevent/alert feature.
   * HOWTO plugin installation
   * Troubleshooting plugin failure (NOT image vulnerability!)
   * Troubleshooting Falcon API response
-  * Configuring Image Assessment Policy  
+  * Configuring Image Assessment Policy

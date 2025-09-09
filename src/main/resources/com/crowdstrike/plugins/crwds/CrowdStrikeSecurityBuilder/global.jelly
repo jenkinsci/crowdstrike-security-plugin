@@ -8,7 +8,23 @@
       <f:select/>
     </f:entry>
     <f:entry title="Falcon credential" field="falconCredentialId">
-        <c:select />
+      <c:select />
     </f:entry>
   </f:section>
+
+  <f:section title="Container Runtime Configuration">
+    <f:entry title="Container Runtime" field="containerRuntime"
+             description="Choose the container runtime for image assessment">
+      <f:select />
+    </f:entry>
+    <f:entry title="">
+      <div class="help">
+        <ul>
+          <li><strong>Docker (default):</strong>Use Docker for all container operations</li>
+          <li><strong>Podman:</strong>Use Podman for all container operations</li>
+        </ul>
+      </div>
+    </f:entry>
+  </f:section>
+
 </j:jelly>

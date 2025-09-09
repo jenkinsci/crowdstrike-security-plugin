@@ -8,7 +8,7 @@ public enum ProcessCodes {
     DOCKER_LOGIN_FAILURE(-1002, "Docker login has failed"),
     DOCKER_TAG_FAILURE(-1003, "Error in performing docker tag"),
     DOCKER_PUSH_FAILURE(-1004, "Error in performing docker push"),
-    DOCKER_OPERATION_SUCCESS(1002, "Docker operation successful"),
+    DOCKER_OPERATION_SUCCESS(1002, "Container runtime operation successful"),
     FETCH_ASSESSMENT_REPORT_FAILURE(-1005, "Error in fetching the CrowdStrike Security assessment report"),
     FETCH_POLICY_REPORT_FAILURE(-1006, "Error in fetching the CrowdStrike Security policy report"),
     PREVENT_BUILD_DUE_TO_POLICY(-1007, "CrowdStrike Security prevented the build due to the Falcon Policy. Please deselect `Enforce the recommendation` option in the per-build configuration if you do not want CrowdStrike Security to prevent this build."),
@@ -18,6 +18,10 @@ public enum ProcessCodes {
     INTERNAL_ERROR(-1011, "CrowdStrike Security plugin faced an unknown internal error."),
     INVALID_CONFIGURATION(-1012, "Invalid configuration. Please use appropriate values in the per-build/global configuration for the build to succeed"),
     BUILD_SUCCESS(1000, "Build Successful"),
+    // Podman error codes
+    PODMAN_LOGIN_FAILURE(-1013, "Podman login has failed"),
+    PODMAN_TAG_FAILURE(-1014, "Podman tag has failed"),
+    PODMAN_PUSH_FAILURE(-1015, "Podman push has failed"),
     ;
 
     private final int code;

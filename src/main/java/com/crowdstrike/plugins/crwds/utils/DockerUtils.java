@@ -45,7 +45,7 @@ public class DockerUtils {
             args.add(runtime.getExecutable()).add("--version");
             int exitCode = launcher.launch().cmds(args).envs(env).stdout(listener).pwd(workspace).join();
             return exitCode == 0;
-        }catch (Exception e){
+        }catch (IOException | InterruptedException e){
             return false;
         }
     }

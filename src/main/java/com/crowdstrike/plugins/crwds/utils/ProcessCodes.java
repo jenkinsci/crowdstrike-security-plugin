@@ -8,7 +8,7 @@ public enum ProcessCodes {
     DOCKER_LOGIN_FAILURE(-1002, "Docker login has failed"),
     DOCKER_TAG_FAILURE(-1003, "Error in performing docker tag"),
     DOCKER_PUSH_FAILURE(-1004, "Error in performing docker push"),
-    DOCKER_OPERATION_SUCCESS(1002, "Container runtime operation successful"),
+    CONTAINER_RUNTIME_OPERATION_SUCCESS(1002, "Container runtime operation successful"),
     FETCH_ASSESSMENT_REPORT_FAILURE(-1005, "Error in fetching the CrowdStrike Security assessment report"),
     FETCH_POLICY_REPORT_FAILURE(-1006, "Error in fetching the CrowdStrike Security policy report"),
     PREVENT_BUILD_DUE_TO_POLICY(-1007, "CrowdStrike Security prevented the build due to the Falcon Policy. Please deselect `Enforce the recommendation` option in the per-build configuration if you do not want CrowdStrike Security to prevent this build."),

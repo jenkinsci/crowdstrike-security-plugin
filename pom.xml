@@ -49,6 +49,9 @@
 		<changelist>-SNAPSHOT</changelist>
 		<gitHubRepo>jenkinsci/crowdstrike-security-plugin</gitHubRepo>
 		<jenkins.version>2.332.3</jenkins.version>
+		<java.level>11</java.level>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
 
 		<spotbugs.effort>Max</spotbugs.effort>
 		<spotbugs.failOnError>true</spotbugs.failOnError>
@@ -114,8 +117,8 @@
 				<configuration>
 					<showDeprecation>true</showDeprecation>
 					<showWarnings>true</showWarnings>
-					<source>21</source>
-					<target>21</target>
+					<source>11</source>
+					<target>11</target>
 				</configuration>
 			</plugin>
 			<plugin>

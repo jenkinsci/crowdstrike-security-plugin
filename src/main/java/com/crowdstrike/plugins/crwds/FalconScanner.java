@@ -103,7 +103,7 @@ public class FalconScanner {
             }
             FileUtils.createWorkSpaceArtifactAndArchive(context, artifactName, html);
         } catch (RuntimeException ex){
-            throw new AbortException("[CRWDS::ABORT] Failed to archive build artifacts" + ex.getMessage());
+            throw new AbortException("[CRWDS::ABORT] Failed to archive build artifacts - " + ex.getMessage());
         } catch (Exception ex) {
             throw new AbortException("[CRWDS::ABORT] Failed to archive build artifacts - " + ex.getMessage());
         }

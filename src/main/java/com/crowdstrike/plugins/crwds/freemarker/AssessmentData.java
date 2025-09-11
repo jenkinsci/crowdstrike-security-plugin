@@ -580,7 +580,7 @@ public class AssessmentData {
             @SerializedName("CVEID")
             private String cveId;
             @SerializedName("LayerHash")
-            private String layerHash = "";
+            private String layerHash;
             @SerializedName("FirstSeen")
             private String firstSeen;
             @SerializedName("Product")
@@ -709,7 +709,7 @@ public class AssessmentData {
                 private String description;
                 private String vector;
                 private double base_score;
-                private String severity = "";
+                private String severity;
                 private double exploitability_score;
                 private double impact_score;
                 private ArrayList<References> references;

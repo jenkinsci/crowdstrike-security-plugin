@@ -6,7 +6,6 @@ import hudson.Launcher.ProcStarter;
 import hudson.model.TaskListener;
 import hudson.util.ArgumentListBuilder;
 
-import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -71,8 +70,8 @@ public class DockerUtils {
             return runtime == ContainerRuntime.DOCKER ? ProcessCodes.DOCKER_LOGIN_FAILURE.getCode() : ProcessCodes.PODMAN_LOGIN_FAILURE.getCode();
         }
 
-        context.getLogger().println("[CRWDS::DEBUG] " + runtime.getExecutable() + " Login -" + ProcessCodes.DOCKER_OPERATION_SUCCESS.getDescription());
-        return ProcessCodes.DOCKER_OPERATION_SUCCESS.getCode();
+        context.getLogger().println("[CRWDS::DEBUG] " + runtime.getExecutable() + " Login -" + ProcessCodes.CONTAINER_RUNTIME_OPERATION_SUCCESS.getDescription());
+        return ProcessCodes.CONTAINER_RUNTIME_OPERATION_SUCCESS.getCode();
     }
 
     public Integer containerPush(FalconContext context, String csRegistryUrl, String imageName, String imageTag) {
@@ -86,7 +85,7 @@ public class DockerUtils {
 
         try {
             final Integer containerTagStatus = containerTag(context, csRegistryUrl, imageName, imageTag);
-            if(containerTagStatus != ProcessCodes.DOCKER_OPERATION_SUCCESS.getCode()) {
+            if(containerTagStatus != ProcessCodes.CONTAINER_RUNTIME_OPERATION_SUCCESS.getCode()) {
                 return containerTagStatus;
             }
 
@@ -99,8 +98,8 @@ public class DockerUtils {
             return runtime == ContainerRuntime.DOCKER ? ProcessCodes.DOCKER_PUSH_FAILURE.getCode() : ProcessCodes.PODMAN_PUSH_FAILURE.getCode();
         }
 
-        context.getLogger().println("[CRWDS::DEBUG] " + runtime.getExecutable() + " Push -" + ProcessCodes.DOCKER_OPERATION_SUCCESS.getDescription());
-        return ProcessCodes.DOCKER_OPERATION_SUCCESS.getCode();
+        context.getLogger().println("[CRWDS::DEBUG] " + runtime.getExecutable() + " Push -" + ProcessCodes.CONTAINER_RUNTIME_OPERATION_SUCCESS.getDescription());
+        return ProcessCodes.CONTAINER_RUNTIME_OPERATION_SUCCESS.getCode();
     }
 
     public Integer containerTag(FalconContext context, String csRegistryUrl, String imageName, String imageTag) {
@@ -121,8 +120,8 @@ public class DockerUtils {
             return runtime == ContainerRuntime.DOCKER ? ProcessCodes.DOCKER_TAG_FAILURE.getCode() : ProcessCodes.PODMAN_TAG_FAILURE.getCode();
         }
 
-        context.getLogger().println("[CRWDS::DEBUG] " + runtime.getExecutable() + " Tag -" + ProcessCodes.DOCKER_OPERATION_SUCCESS.getDescription());
-        return ProcessCodes.DOCKER_OPERATION_SUCCESS.getCode();
+        context.getLogger().println("[CRWDS::DEBUG] " + runtime.getExecutable() + " Tag -" + ProcessCodes.CONTAINER_RUNTIME_OPERATION_SUCCESS.getDescription());
+        return ProcessCodes.CONTAINER_RUNTIME_OPERATION_SUCCESS.getCode();
     }
 
     // Legacy static methods: dockerLogin, dockerPush, dockerTag maintained for backward compatibility

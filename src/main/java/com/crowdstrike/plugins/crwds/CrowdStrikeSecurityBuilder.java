@@ -160,7 +160,7 @@ public class CrowdStrikeSecurityBuilder extends Builder implements SimpleBuildSt
             if(value == null || value.isEmpty()){
                 return FormValidation.error("Container runtime must be specified");
             }
-            if(!value.equals("docker") && !value.equals("podman")){
+            if(!value.equalsIgnoreCase("docker") && !value.equalsIgnoreCase("podman")){
                 return FormValidation.error("Container runtime must be either docker or podman");
             }
             return FormValidation.ok();

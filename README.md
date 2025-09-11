@@ -127,6 +127,8 @@ We offer compatibility with this plugin.
 #### JCasC YAML Configuration
 To configure your Vault in Jenkins add the following to `jenkins.yaml`:
 
+Note: The value of FALCON CLOUD should equal the full string from your desired cloud from the above table. e.g. `us-1.crowdstrike.com` not `us-1`
+
 ```yaml
 unclassified:
   crowdStrikeSecurity:

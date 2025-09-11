@@ -124,22 +124,6 @@ public class DockerUtils {
         return ProcessCodes.CONTAINER_RUNTIME_OPERATION_SUCCESS.getCode();
     }
 
-    // Legacy static methods: dockerLogin, dockerPush, dockerTag maintained for backward compatibility
-    public static Integer dockerLogin(FalconContext context, String username, String password, String csRegistryUrl) {
-        DockerUtils dockerUtils = new DockerUtils(ContainerRuntime.DOCKER);
-        return dockerUtils.containerLogin(context, username, password, csRegistryUrl);
-    }
-
-    public static Integer dockerPush(FalconContext context, String csRegistryUrl, String imageName, String imageTag) {
-        DockerUtils dockerUtils = new DockerUtils(ContainerRuntime.DOCKER);
-        return dockerUtils.containerPush(context, csRegistryUrl, imageName, imageTag);
-    }
-
-    public static Integer dockerTag(FalconContext context, String csRegistryUrl, String imageName, String imageTag) {
-        DockerUtils dockerUtils = new DockerUtils(ContainerRuntime.DOCKER);
-        return dockerUtils.containerTag(context, csRegistryUrl, imageName, imageTag);
-    }
-
     private static int launchProcess(FalconContext context, ArgumentListBuilder cmds, InputStream input) throws IOException, InterruptedException {
         ProcStarter ps = context.getLauncher().new ProcStarter();
         ps = ps.cmds(cmds).stdout(context.getTaskListener());

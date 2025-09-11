@@ -103,7 +103,7 @@ public class FalconScanner {
             }
             FileUtils.createWorkSpaceArtifactAndArchive(context, artifactName, html);
         } catch (RuntimeException ex){
-            throw new AbortException("[CRWDS::ABORT] Failed to archive build artifacts - " + ex.getMessage());
+            throw new AbortException("[CRWDS::ABORT] Failed to archive build artifacts" + ex.getMessage());
         } catch (Exception ex) {
             throw new AbortException("[CRWDS::ABORT] Failed to archive build artifacts - " + ex.getMessage());
         }
@@ -231,7 +231,7 @@ public class FalconScanner {
 
         String runtimeConfig = descriptor.getContainerRuntime();
 
-        if ("podman".equals(runtimeConfig)){
+        if ("podman".equalsIgnoreCase(runtimeConfig)){
             falconContext.getLogger().println("[CRWDS::DEBUG] Podman branch selected");
             if(!DockerUtils.isRuntimeAvailable(DockerUtils.ContainerRuntime.PODMAN,
                     falconContext.getEnvVars(),

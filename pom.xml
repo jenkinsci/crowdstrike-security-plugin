@@ -31,9 +31,9 @@
 		<connection>scm:git:ssh://github.com/jenkinsci/crowdstrike-security-plugin.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com/jenkinsci/crowdstrike-security-plugin.git</developerConnection>
 		<url>https://github.com/jenkinsci/crowdstrike-security-plugin</url>
-		<tag>crowdstrike-security-1.2.2</tag>
+		<tag>HEAD</tag>
 	</scm>
-	<version>1.2.2</version>
+	<version>1.2.3-SNAPSHOT</version>
 	<distributionManagement>
 		<repository>
 			<id>maven.jenkins-ci.org</id>
@@ -49,9 +49,6 @@
 		<changelist>-SNAPSHOT</changelist>
 		<gitHubRepo>jenkinsci/crowdstrike-security-plugin</gitHubRepo>
 		<jenkins.version>2.332.3</jenkins.version>
-		<java.level>11</java.level>
-		<maven.compiler.source>11</maven.compiler.source>
-		<maven.compiler.target>11</maven.compiler.target>
 
 		<spotbugs.effort>Max</spotbugs.effort>
 		<spotbugs.failOnError>true</spotbugs.failOnError>
@@ -117,14 +114,9 @@
 				<configuration>
 					<showDeprecation>true</showDeprecation>
 					<showWarnings>true</showWarnings>
-					<source>11</source>
-					<target>11</target>
+					<source>21</source>
+					<target>21</target>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.jenkins-ci.tools</groupId>
-				<artifactId>maven-hpi-plugin</artifactId>
-				<version>3.34</version>
 			</plugin>
 		</plugins>
 	</build>

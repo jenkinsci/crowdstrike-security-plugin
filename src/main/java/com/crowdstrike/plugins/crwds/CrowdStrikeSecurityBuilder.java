@@ -5,6 +5,7 @@ import com.cloudbees.plugins.credentials.common.StandardListBoxModel;
 import com.crowdstrike.plugins.crwds.configuration.DescriptorConfiguration;
 import com.crowdstrike.plugins.crwds.configuration.FalconConfiguration;
 import com.crowdstrike.plugins.crwds.credentials.FalconClientIdAndToken;
+import com.crowdstrike.plugins.crwds.utils.DockerUtils;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.EnvVars;
 import hudson.Extension;
@@ -118,6 +119,8 @@ public class CrowdStrikeSecurityBuilder extends Builder implements SimpleBuildSt
 
         private String falconCredentialId;
 
+        private String containerRuntime = "docker";
+
         public FalconStepBuilderDescriptor() {
             load();
         }
@@ -153,8 +156,18 @@ public class CrowdStrikeSecurityBuilder extends Builder implements SimpleBuildSt
             }
         }
 
+        public FormValidation doCheckContainerRuntime(@QueryParameter String value){
+            if(value == null || value.isEmpty()){
+                return FormValidation.error("Container runtime must be specified");
+            }
+            if(!value.equalsIgnoreCase("docker") && !value.equalsIgnoreCase("podman")){
+                return FormValidation.error("Container runtime must be either docker or podman");
+            }
+            return FormValidation.ok();
+        }
+
         /**
-        Below method is used for configuring, reading/loading global config values
+         Below method is used for configuring, reading/loading global config values
          */
         @Override
         public boolean configure(StaplerRequest request, JSONObject formData) throws FormException {
@@ -175,11 +188,22 @@ public class CrowdStrikeSecurityBuilder extends Builder implements SimpleBuildSt
             return items;
         }
 
+        public ListBoxModel doFillContainerRuntimeItems() {
+            ListBoxModel items = new ListBoxModel();
+            items.add("Docker (Default)", "docker");
+            items.add("Podman", "podman");
+            return items;
+        }
+
         public String getFalconCloud() {
             return falconCloud;
         }
 
         public String getFalconCredentialId() { return falconCredentialId; }
+
+        public String getContainerRuntime(){
+            return containerRuntime;
+        }
 
         @DataBoundSetter
         public void setFalconCloud(String falconCloud) {
@@ -190,6 +214,12 @@ public class CrowdStrikeSecurityBuilder extends Builder implements SimpleBuildSt
         public void setFalconCredentialId(String falconCredentialId) {
             this.falconCredentialId = falconCredentialId;
         }
+
+        @DataBoundSetter
+        public void setContainerRuntime(String containerRuntime) {
+            this.containerRuntime = containerRuntime;
+        }
+
 
         public ListBoxModel doFillFalconCredentialIdItems(@AncestorInPath Item item, @QueryParameter String falconCredentialId) {
             StandardListBoxModel model = new StandardListBoxModel();

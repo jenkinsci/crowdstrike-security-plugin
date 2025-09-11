@@ -8,8 +8,14 @@
 * In order to do this, CrowdStrike is offering solutions for developers at build time that allow them to assess their Docker container images and review summarized report data integrated with their favorite CI/CD tools like Jenkins.
 * Customers will use this feature by downloading from Falcon console, and following Falcon documentation to install our plugins on top of their existing self-hosted CI/CD solutions.
 * Customers will then generate a new authentication token within Falcon console, and configure their plugin to use this credential for communication with existing Falcon APIs.
-* Users of this plugin receive a unique HTML view of the Image Assessment report data embedded inside Jenkins. 
+* Users of this plugin receive a unique HTML view of the Image Assessment report data embedded inside Jenkins.
 * Users of this plugin can choose to use the information Falcon provides to actively abort the deployment of vulnerable container images as an in-line step in the build pipeline.
+* The CrowdStrike Security Plugin now offers flexible container runtime support, allowing users to choose between Docker and Podman through a global configuration option. This enhancement provides:
+  - **Runtime Selection**: Easy switching between Docker and Podman environments
+  - **Global Configuration**: Centralized runtime management through Jenkins global settings
+  - **Seamless Integration**: Consistent functionality regardless of chosen runtime
+  - **Backward Compatibility**: Maintains existing Docker workflows while enabling Podman support
+
 
 ## About the Image Assessment feature
 
@@ -17,8 +23,8 @@
 This plugin is leveraging that existing feature of Falcon via the Falcon API.
 
 For more information about CrowdStrike's Image Assessment feature:
-  * Login to Falcon console.
-  * Navigate to `Menu > Support and resources > Documentation > Kubernetes & Containers > Container Security > Assessing your images`.
+* Login to Falcon console.
+* Navigate to `Menu > Support and resources > Documentation > Kubernetes & Containers > Container Security > Assessing your images`.
 
 ## Installing the plugin
 
@@ -43,14 +49,14 @@ For more information about CrowdStrike's Image Assessment feature:
   - Install the plugin.
 - #### Manual Installation
   - Download the latest stable release version of this plugin from Falcon console.
-      * `Falcon console > Support > Tool Downloads`  
-      * Click to download `CrowdStrike Security for Jenkins` file archive.
-      * Extract the `.zip` archive locally.
-      * Look for the `.hpi` file which is the format of a Jenkins plugin.
+    * `Falcon console > Support > Tool Downloads`
+    * Click to download `CrowdStrike Security for Jenkins` file archive.
+    * Extract the `.zip` archive locally.
+    * Look for the `.hpi` file which is the format of a Jenkins plugin.
   - Upload the plugin to Jenkins
-      * In Jenkins, navigate to `Manage Jenkins > Manage plugins`.
-      * Click on the `advanced` tab.
-      * Click `Choose File` and select the `.hpi` file you extracted from archive, earlier
+    * In Jenkins, navigate to `Manage Jenkins > Manage plugins`.
+    * Click on the `advanced` tab.
+    * Click `Choose File` and select the `.hpi` file you extracted from archive, earlier
 
 ![Jenkins Deploy Plugin form](docs/images/deploy.png)
 
@@ -64,24 +70,24 @@ These settings are used for authenticating Jenkins plugin to Falcon services.
 You can fill them in manually, or use the automatic configuration option (ie. if you have a large fleet of Jenkins servers).
 
 - Generate the token to enable communication with Falcon API by Jenkins.
-    * Login to Falcon console.
-    * If you have defined more than one Customer ID (`CID`), it's important to choose the one with appropriate permissions from top-right navigation drop-down menu in Falcon console, before proceeding.
-    * Visit `Falcon console > Support > API Clients & Keys`
-    * Select `Falcon Container Image` permission with `READ` and `WRITE` access checked.
-    * Click `Add` button to finish creating your credentials.
-    * On the following screen you will be given `Client ID` and `Secret` values. Copy these to your clipboard.
+  * Login to Falcon console.
+  * If you have defined more than one Customer ID (`CID`), it's important to choose the one with appropriate permissions from top-right navigation drop-down menu in Falcon console, before proceeding.
+  * Visit `Falcon console > Support > API Clients & Keys`
+  * Select `Falcon Container Image` permission with `READ` and `WRITE` access checked.
+  * Click `Add` button to finish creating your credentials.
+  * On the following screen you will be given `Client ID` and `Secret` values. Copy these to your clipboard.
 
 ### Manual configuration
 
 #### Set up credentials
 - In Jenkins, navigate to `Manage Jenkins > Manage Credentials > System > Global Credentials > Add Credentials`
-    * Select `CrowdStrike Falcon API` as Kind and fill out required information
-      ![Global Credentials](docs/images/global_credentials.png)
+  * Select `CrowdStrike Falcon API` as Kind and fill out required information
+    ![Global Credentials](docs/images/global_credentials.png)
 
 - In Jenkins, navigate to `Manage Jenkins > Configure System > CrowdStrike Security`,
-    * Select the `Credential ID` (generated above).
-    * Select a `Falcon Cloud` from the dropdown menu. 
-    * Click the `Save` button.
+  * Select the `Credential ID` (generated above).
+  * Select a `Falcon Cloud` from the dropdown menu.
+  * Click the `Save` button.
 
 #### Q: What is the Falcon Cloud?
 
@@ -102,6 +108,12 @@ It represents the server where a) your Customer ID (CID) has a subscription, b) 
 
 ![Global Config](docs/images/global_config.png)
 
+#### Set up container runtime configuration
+
+- In Jenkins, navigate to `Manage Jenkins > Configure System > Container Runtime Configuration`
+  * Select `Container Runtime` as Docker or Podman
+    ![Container_Runtime](docs/images/container_runtime.png)
+
 ### Automatic configuration (alternative)
 
 Jenkins administrators in an enterprise environment would most likely rather use
@@ -114,6 +126,8 @@ We offer compatibility with this plugin.
 
 #### JCasC YAML Configuration
 To configure your Vault in Jenkins add the following to `jenkins.yaml`:
+
+Note: The value of FALCON CLOUD should equal the full string from your desired cloud from the above table. e.g. `us-1.crowdstrike.com` not `us-1`
 
 ```yaml
 unclassified:
@@ -195,14 +209,14 @@ These settings must be specified for each Jenkins job, where the plugin is inten
 ![Add Build Step](docs/images/build_step.png)
 
 - Enter the following details:
-    * For `When image does not comply with policy`, choose one:
-      * `Enforce the recommendation`: if Falcon policy is set to "Prevent", Jenkins will **enforce** this by failing the build.  
-         (You will still receive an Image Assessment report.)
-      * `Skip image upload`: Select this option only if the image is already uploaded to CrowdStrike as part of a previous step. When selected, the plugin will **not execute** `docker push`. It only retrieves the image scan report but does not upload the image to CrowdStrike for assessment.
-    * Image to assess:
-        * `Image Name`: name of the docker image that will be scanned by CrowdStrike Image Assessment.
-        * `Image Tag`: tag of the docker image that will be scanned by CrowdStrike Image Assessment.
-        * `Timeout`: how to long to wait (in seconds) before failing build, if unable to communicate with Falcon API.
+  * For `When image does not comply with policy`, choose one:
+    * `Enforce the recommendation`: if Falcon policy is set to "Prevent", Jenkins will **enforce** this by failing the build.  
+      (You will still receive an Image Assessment report.)
+    * `Skip image upload`: Select this option only if the image is already uploaded to CrowdStrike as part of a previous step. When selected, the plugin will **not execute** `docker push`. It only retrieves the image scan report but does not upload the image to CrowdStrike for assessment.
+  * Image to assess:
+    * `Image Name`: name of the docker image that will be scanned by CrowdStrike Image Assessment.
+    * `Image Tag`: tag of the docker image that will be scanned by CrowdStrike Image Assessment.
+    * `Timeout`: how to long to wait (in seconds) before failing build, if unable to communicate with Falcon API.
 
 **NOTICE:** if `Enforce the recommendation` option is not set, the plugin assumes `docker` binary is installed and in `$PATH`, and that it is already configured to connect to a running Docker Engine, where images will be pulled-to/pushed-from.  
 **NOTICE:** You may use environment `$VARIABLES` in the field values above. (e.g., if Docker image tag is incrementing per-build)
@@ -254,8 +268,8 @@ Symptom | Possible cause | Solution
 
 ### Error Codes
 
-Code | Name | Description
--|-|-
+ Code  | Name | Description
+-------|-|-
 | -1001 | **AUTHENTICATION_FAILURE** | User authentication failed.
 | -1002 | **DOCKER_LOGIN_FAILURE** | Docker login has failed
 | -1003 | **DOCKER_TAG_FAILURE** | Error in performing docker tag
@@ -263,19 +277,22 @@ Code | Name | Description
 | -1005 | **FETCH_ASSESSMENT_REPORT_FAILURE** | Error in fetching the CrowdStrike Security assessment report
 | -1006 | **FETCH_POLICY_REPORT_FAILURE** | Error in fetching the CrowdStrike Security policy report
 | -1007 | **PREVENT_BUILD_DUE_TO_POLICY** | CrowdStrike Security prevented the build due to the Falcon Policy. Please deselect `Enforce the recommendation` option in the per-build configuration if you do not want CrowdStrike Security to prevent this build.
-| -1008| **PREVENT_BUILD_RECOMMENDATION** | CrowdStrike Security recommends to prevent the build as per the Falcon Policy. Please select `Enforce the recommendation` option in the per-build configuration if you want CrowdStrike Security to enforce the policy.
+| -1008 | **PREVENT_BUILD_RECOMMENDATION** | CrowdStrike Security recommends to prevent the build as per the Falcon Policy. Please select `Enforce the recommendation` option in the per-build configuration if you want CrowdStrike Security to enforce the policy.
 | -1009 | **HTML_GENERATION_FAILURE** | Failed to generate HTML report
 | -1010 | **BUILD_TIMED_OUT** | Build Step Timed-out. Try increasing the value in timeout field in the per-build configuration
-| -1011| **INTERNAL_ERROR** | CrowdStrike Security plugin faced an unknown internal error.
+| -1011 | **INTERNAL_ERROR** | CrowdStrike Security plugin faced an unknown internal error.
+| -1013 | **PODMAN_LOGIN_FAILURE** | Error in Podman Authentication.
+| -1014 | **PODMAN_TAG_FAILURE** | Podman image tag failure.
+| -1015 | **PODMAN_PUSH_FAILURE** | Podman image push failure.
 
 ### Image
 
 If you want to double-check the vulnerabilities that are found in an existing container image,
-you can use the following tool. 
+you can use the following tool.
 
 #### CrowdStrike IVAN (Image Vulnerability Analysis):
 
-This tool is a command-line container image assessment tool that 
+This tool is a command-line container image assessment tool that
 looks for vulnerabilities in the Docker images.
 It unpacks the image locally, and uploads ONLY METADATA to Falcon, which then returns any known vulnerabilities.
 
@@ -296,14 +313,14 @@ and give them the Policy Name shown in the Image Assessment report data.
 ### Plugin
 
 If you suspect the plugin is the problem, you can try this alternative which is a command-line
-tool. It still talks to Falcon API, and the assessment happens remotely, but it doesn't require Jenkins 
+tool. It still talks to Falcon API, and the assessment happens remotely, but it doesn't require Jenkins
 or this plugin.
 
 Alternatively, you can use the exit code of this script to pass/fail your Jenkins builds.
 
 #### CrowdStrike Container Image Scan
 
-This Python script will upload your container image to Falcon API 
+This Python script will upload your container image to Falcon API
 and return the Image Assessment report data as JSON to stdout.
 This will tell you about known vulnerabilities, malware, and secrets found in the image layers.
 However, it does not support the Image Assessment Policy prevent/alert feature.

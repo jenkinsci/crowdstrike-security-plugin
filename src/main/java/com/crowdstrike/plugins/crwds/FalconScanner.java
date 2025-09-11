@@ -8,6 +8,7 @@ import com.crowdstrike.plugins.crwds.utils.ProcessCodes;
 import com.google.gson.Gson;
 import hudson.AbortException;
 import hudson.model.Run;
+import jenkins.model.Jenkins;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -41,14 +42,17 @@ public class FalconScanner {
         falconContext.getLogger().println("[CRWDS::DEBUG] " + ProcessCodes.AUTHENTICATION_SUCCESS.getDescription() );
 
         if (!skipImageUpload) {
-            final Integer dockerLoginStatus = DockerUtils.dockerLogin(falconContext, clientId, clientSecret, registryUrl);
-            if(dockerLoginStatus < 0) {
-                return ProcessCodes.DOCKER_LOGIN_FAILURE.getCode();
+
+            DockerUtils containerUtils = getContainerUtils(falconContext);
+
+            final Integer containerLoginStatus = containerUtils.containerLogin(falconContext, clientId, clientSecret, registryUrl);
+            if(containerLoginStatus < 0) {
+                return containerLoginStatus;
             }
 
-            final Integer dockerPushStatus = DockerUtils.dockerPush(falconContext, registryUrl, imageName, imageTag);
-            if(dockerPushStatus < 0) {
-                return ProcessCodes.DOCKER_PUSH_FAILURE.getCode();
+            final Integer containerPushStatus = containerUtils.containerPush(falconContext, registryUrl, imageName, imageTag);
+            if(containerPushStatus < 0) {
+                return containerPushStatus;
             }
         }
 
@@ -99,7 +103,7 @@ public class FalconScanner {
             }
             FileUtils.createWorkSpaceArtifactAndArchive(context, artifactName, html);
         } catch (RuntimeException ex){
-            throw new AbortException("[CRWDS::ABORT] Failed to archive build artifacts - " + ex.getMessage());
+            throw new AbortException("[CRWDS::ABORT] Failed to archive build artifacts" + ex.getMessage());
         } catch (Exception ex) {
             throw new AbortException("[CRWDS::ABORT] Failed to archive build artifacts - " + ex.getMessage());
         }
@@ -215,6 +219,41 @@ public class FalconScanner {
 
     public static JSONObject parseFromJsonString(String jsonString) {
         return new JSONObject(jsonString);
+    }
+
+    private DockerUtils getContainerUtils(FalconContext falconContext) throws IOException, InterruptedException {
+        CrowdStrikeSecurityBuilder.FalconStepBuilderDescriptor descriptor = (CrowdStrikeSecurityBuilder.FalconStepBuilderDescriptor) Jenkins.get().getDescriptor(CrowdStrikeSecurityBuilder.class);
+
+        if (descriptor == null) {
+            falconContext.getLogger().println("[CRWDS::DEBUG] ERROR: Descriptor is null");
+            throw new IOException("Could not get CrowdStrike descriptor");
+        }
+
+        String runtimeConfig = descriptor.getContainerRuntime();
+
+        if ("podman".equalsIgnoreCase(runtimeConfig)){
+            falconContext.getLogger().println("[CRWDS::DEBUG] Podman branch selected");
+            if(!DockerUtils.isRuntimeAvailable(DockerUtils.ContainerRuntime.PODMAN,
+                    falconContext.getEnvVars(),
+                    falconContext.getWorkspace(),
+                    falconContext.getLauncher(),
+                    falconContext.getTaskListener())){
+                throw new IOException("Podman is not available. Please ensure podman is installed and in PATH");
+            }
+
+            falconContext.getLogger().println("[CRWDS::DEBUG] Using Podman for operations");
+            return new DockerUtils(DockerUtils.ContainerRuntime.PODMAN);
+        }else{
+            if(!DockerUtils.isRuntimeAvailable(DockerUtils.ContainerRuntime.DOCKER,
+                    falconContext.getEnvVars(),
+                    falconContext.getWorkspace(),
+                    falconContext.getLauncher(),
+                    falconContext.getTaskListener())){
+                throw new IOException("Docker is not available. Please ensure docker is installed and in PATH");
+            }
+        }
+        falconContext.getLogger().println("[CRWDS::DEBUG] Using Docker for operations");
+        return new DockerUtils(DockerUtils.ContainerRuntime.DOCKER);
     }
 
 }

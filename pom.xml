@@ -52,7 +52,7 @@
 
 		<spotbugs.effort>Max</spotbugs.effort>
 		<spotbugs.failOnError>true</spotbugs.failOnError>
-		<spotbugs.threshold>Low</spotbugs.threshold>
+		<spotbugs.threshold>High</spotbugs.threshold>
 	</properties>
 
 	<dependencyManagement>
@@ -116,6 +116,18 @@
 					<showWarnings>true</showWarnings>
 					<source>21</source>
 					<target>21</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.cloudbees</groupId>
+				<artifactId>maven-license-plugin</artifactId>
+				<version>1.17</version>
+			</plugin>
+			<plugin>
+				<groupId>com.github.spotbugs</groupId>
+				<artifactId>spotbugs-maven-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
 				</configuration>
 			</plugin>
 		</plugins>

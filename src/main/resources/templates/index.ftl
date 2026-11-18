@@ -1,3 +1,4 @@
+<#ftl output_format="HTML">
 <head>
     <h1 class="display-info">Please open from sidebar or save and open in browser to view with stylesheet</h1>
     <title>Assessment | CrowdStrike Security</title>
@@ -604,7 +605,7 @@
                 <div id="top-right">
                     <div class="d-f f-a-c f-jc-fe">
                         <#if (policyData.getFirstResource().isPrevent())!false>
-                            ${(assessmentData.getIconByType("failure"))!}
+                            ${assessmentData.getIconByType("failure")?no_esc}
                             <span class="type-xl c-critical i-text">
                                 <#if neverFail??>
                                     (Ignored) Falcon Recommendation : Prevent Build
@@ -613,7 +614,7 @@
                                 </#if>
                             </span>
                         <#else>
-                            ${(assessmentData.getIconByType("success"))!}
+                            ${assessmentData.getIconByType("success")?no_esc}
                             <span class="type-xl c-positive i-text">Falcon Allowed Build</span>
                         </#if>
                     </div>
@@ -773,7 +774,7 @@
                                             <td>
                                                 <#if (policyData.getFirstResource().getEvaluation_details().isCveIdInExcludedCveList(cve_list))!false>
                                                     <span>
-                                                        ${(assessmentData.getIconByType("positive"))!}
+                                                        ${assessmentData.getIconByType("positive")?no_esc}
                                                     </span>
                                                 </#if>
                                             </td>
@@ -865,9 +866,9 @@
                                     <div class="fold">
                                         <input type="checkbox" id="check${key?index}-${uniqueId}"/>
                                         <label class="fold-label p-2" for="check${key?index}-${uniqueId}">
-                                            ${(assessmentData.getIconByType(key))!}
+                                            ${assessmentData.getIconByType(key)?no_esc}
                                             <span class="type-lg c-tna mr-1">${(assessmentData.severityLabel(key))!} (${(severityMap[key])!})</span>
-                                            ${(assessmentData.getIconByType("arrow"))!}
+                                            ${assessmentData.getIconByType("arrow")?no_esc}
                                         </label>
                                         <div class="fold-content bg-dark-1 type-md">
                                             <div class="folds-header-row row p-2">
@@ -896,10 +897,10 @@
                                                                 </span>
                                                                 <span class="cell6">
                                                                     <#if (policyData.getFirstResource().getEvaluation_details().isCveIdInMatchedCveList(vul.getCveId()))!false>
-                                                                        <span>${(assessmentData.getIconByType("success"))!}</span>
+                                                                        <span>${assessmentData.getIconByType("success")?no_esc}</span>
                                                                     </#if>
                                                                 </span>
-                                                                ${(assessmentData.getIconByType("arrow"))!}
+                                                                ${assessmentData.getIconByType("arrow")?no_esc}
                                                             </label>
                                                             <div class="vul-content">
                                                                 <div class="p-3">
@@ -1022,7 +1023,7 @@
                 <div class="folds">
                     <div class="fold">
                         <input type="checkbox" id="checkDiagnostics-${uniqueId}">
-                        <label class="fold-label d-f type-xl c-tni p-2" for="checkDiagnostics-${uniqueId}">Assessment Diagnostics${(assessmentData.getIconByType("arrow"))!}</label>
+                        <label class="fold-label d-f type-xl c-tni p-2" for="checkDiagnostics-${uniqueId}">Assessment Diagnostics${assessmentData.getIconByType("arrow")?no_esc}</label>
                         <div class="fold-content">
                             <div class="form-row p-2">
                                 <div class="form-col">

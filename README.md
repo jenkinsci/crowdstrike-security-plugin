@@ -86,20 +86,22 @@ You can fill them in manually, or use the automatic configuration option (ie. if
 
 - In Jenkins, navigate to `Manage Jenkins > Configure System > CrowdStrike Security`,
   * Select the `Credential ID` (generated above).
-  * Select a `Falcon Cloud` from the dropdown menu.
+  * Select a `Falcon Region` from the dropdown menu.
   * Click the `Save` button.
 
-#### Q: What is the Falcon Cloud?
+#### Q: What is the Falcon Region?
 
-It represents the server where a) your Customer ID (CID) has a subscription, b) where you generated the `Client ID` and `Secret` credentials (where they are active/accepted), c) where this plugin will push your Docker container images to for assessment, and d) where this plugin will pull the Image Assessment reports from. The table below shows which cloud the user selection will correspond with.
+It represents the region where a) your Customer ID (CID) has a subscription, b) where you generated the `Client ID` and `Secret` credentials (where they are active/accepted), c) where this plugin will push your Docker container images to for assessment, and d) where this plugin will pull the Image Assessment reports from. The plugin resolves the selected region to its Falcon API Gateway endpoint and uses it for all communication. The table below shows which API domain the user selection will correspond with.
 
-| Falcon Cloud (User Selection)  |  Cloud Env | Type | Falcon API Domain | Falcon Registry Domain | Access |
-|---|---|------|------|------|--------|
-| us-1.crowdstrike.com  | Beta (CSA)  |  Production |   api.crowdstrike.com |   container-upload.us-1.crowdstrike.com |  Public |
-|  us-2.crowdstrike.com | Maverick  |   Production |   api.us-2.crowdstrike.com   |   container-upload.us-2.crowdstrike.com   |   Public |
-| eu-1.crowdstrike.com  | Lion  |  Production |  api.eu-1.crowdstrike.com    |  container-upload.eu-1.crowdstrike.com    |   Public |
-| us-gov-1.crowdstrike.com  | Eagle  |  Production |  api.laggar.gcw.crowdstrike.com    |   container-upload.laggar.gcw.crowdstrike.com   | DoD IL4 |
-| us-gov-2.crowdstrike.com  | Merlin  | Production  |   api.us-gov-2.crowdstrike.com   |   container-upload.us-gov-2.crowdstrike.com   | DoD IL5 |
+| Falcon Region (User Selection)  |  Cloud Env | Type | Falcon API Domain | Access |
+|---|---|------|------|--------|
+| us-1  | Beta (CSA)  |  Production |   api.crowdstrike.com |  Public |
+| us-2 | Maverick  |   Production |   api.us-2.crowdstrike.com   |   Public |
+| us-3 |   |   Production |   api.us-3.crowdstrike.com   |   Public |
+| eu-1  | Lion  |  Production |  api.eu-1.crowdstrike.com    |   Public |
+| us-gov-1  | Eagle  |  Production |  api.laggar.gcw.crowdstrike.com    | DoD IL4 |
+| us-gov-2  | Merlin  | Production  |   api.us-gov-2.crowdstrike.mil   | DoD IL5 |
+| sa-1  |   | Production  |   api.sa-1.crowdstrike.com   | Public |
 
 #### Q: What is Client ID and CID?
 * Subscribing customers will have a Customer ID (CID).
@@ -127,13 +129,14 @@ We offer compatibility with this plugin.
 #### JCasC YAML Configuration
 To configure your Vault in Jenkins add the following to `jenkins.yaml`:
 
-Note: The value of FALCON CLOUD should equal the full string from your desired cloud from the above table. e.g. `us-1.crowdstrike.com` not `us-1`
+Note: The value of FALCON CLOUD should equal the region slug from your desired region in the above table. e.g. `us-1`
 
 ```yaml
 unclassified:
   crowdStrikeSecurity:
-    falconCloud: "FALCON CLOUD"
+    falconCloud: "us-1"
     falconCredentialId: "Falcon_Credential_Id"
+    containerRuntime: "docker"  # options: "docker" or "podman"
 
 credentials:
   system:

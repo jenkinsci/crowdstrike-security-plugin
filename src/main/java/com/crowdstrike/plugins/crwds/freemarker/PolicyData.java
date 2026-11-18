@@ -393,8 +393,8 @@ public class PolicyData {
         }
 
         public static class EvaluationDetails {
-            private ArrayList<String> matched_cve_list = new ArrayList<>();
-            private ArrayList<String> excluded_cve_list = new ArrayList<>();
+            private ArrayList<String> matched_cve_list;
+            private ArrayList<String> excluded_cve_list;
 
             public ArrayList<String> getMatched_cve_list() {
                 return matched_cve_list;

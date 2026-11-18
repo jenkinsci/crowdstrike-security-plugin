@@ -5,7 +5,6 @@ import com.cloudbees.plugins.credentials.common.StandardListBoxModel;
 import com.crowdstrike.plugins.crwds.configuration.DescriptorConfiguration;
 import com.crowdstrike.plugins.crwds.configuration.FalconConfiguration;
 import com.crowdstrike.plugins.crwds.credentials.FalconClientIdAndToken;
-import com.crowdstrike.plugins.crwds.utils.DockerUtils;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.EnvVars;
 import hudson.Extension;
@@ -98,6 +97,11 @@ public class CrowdStrikeSecurityBuilder extends Builder implements SimpleBuildSt
         return getDescriptor().getFalconCredentialId();
     }
 
+    @Override
+    public String getContainerRuntime() {
+        return getDescriptor().getContainerRuntime();
+    }
+
     // Below function is used by config.jelly to display the current status(values) in the per-build configuration page
     public boolean getValueOfNonCompliance(boolean currentState) {
 
@@ -167,7 +171,7 @@ public class CrowdStrikeSecurityBuilder extends Builder implements SimpleBuildSt
         }
 
         /**
-         Below method is used for configuring, reading/loading global config values
+        Below method is used for configuring, reading/loading global config values
          */
         @Override
         public boolean configure(StaplerRequest request, JSONObject formData) throws FormException {
@@ -179,11 +183,13 @@ public class CrowdStrikeSecurityBuilder extends Builder implements SimpleBuildSt
         public ListBoxModel doFillFalconCloudItems() {
             ListBoxModel items = new ListBoxModel();
 
-            items.add("us-1.crowdstrike.com", "us-1.crowdstrike.com");
-            items.add("eu-1.crowdstrike.com", "eu-1.crowdstrike.com");
-            items.add("us-2.crowdstrike.com", "us-2.crowdstrike.com");
-            items.add("laggar.gcw.crowdstrike.com", "laggar.gcw.crowdstrike.com");
-            items.add("us-gov-2.crowdstrike.com", "us-gov-2.crowdstrike.com");
+            items.add("US-1", "us-1");
+            items.add("US-2", "us-2");
+            items.add("US-3", "us-3");
+            items.add("EU-1", "eu-1");
+            items.add("US-GOV-1", "us-gov-1");
+            items.add("US-GOV-2", "us-gov-2");
+            items.add("SA-1", "sa-1");
 
             return items;
         }
@@ -202,7 +208,7 @@ public class CrowdStrikeSecurityBuilder extends Builder implements SimpleBuildSt
         public String getFalconCredentialId() { return falconCredentialId; }
 
         public String getContainerRuntime(){
-            return containerRuntime;
+            return containerRuntime != null ? containerRuntime : "docker";
         }
 
         @DataBoundSetter

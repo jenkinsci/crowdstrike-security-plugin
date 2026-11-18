@@ -15,4 +15,6 @@ public interface FalconConfiguration {
     String getFalconCredentialId();
 
     String getFalconCloud();
+
+    String getContainerRuntime();
 }

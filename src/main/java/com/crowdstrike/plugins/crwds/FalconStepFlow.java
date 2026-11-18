@@ -40,6 +40,7 @@ public class FalconStepFlow {
         final String artifactName = "crwds_report.html";
         final boolean neverFail = !configuration.getEnforce();
         final boolean skipImageUpload = configuration.getSkipImageUpload();
+        final String containerRuntime = configuration.getContainerRuntime();
         final String uniqueId = FileUtils.getRandomUniqueID();
 
         if (imageName == null || imageName.trim().equals("") || imageTag == null || imageTag.trim().equals("") || "".equals(cid) || "".equals(secret)) {
@@ -71,7 +72,7 @@ public class FalconStepFlow {
                 "       .::.. .:.  .::  ..::.     ..   ..   ...::..   ..::.    .:..  .:. .::..::. .:.  .:..:::::.\n\n");
 
         FalconScanner scanner = new FalconScanner();
-        AtomicInteger scanResult = new AtomicInteger();
+        AtomicInteger scanResult = new AtomicInteger(ProcessCodes.INTERNAL_ERROR.getCode());
         try {
             /*
              * We are invoking a worker thread that returns an instance of Future using the ExecutorService
@@ -81,13 +82,18 @@ public class FalconStepFlow {
             Future<?> future = executor.submit(() -> {
 
                 try {
-                    scanResult.set(scanner.execute(context, imageName, imageTag, timeout, secret, cid, authDomain, neverFail, skipImageUpload, artifactName, uniqueId));
+                    scanResult.set(scanner.execute(context, imageName, imageTag, timeout, secret, cid, authDomain, neverFail, skipImageUpload, artifactName, uniqueId, containerRuntime));
 
                     if (scanResult.get() != ProcessCodes.BUILD_SUCCESS.getCode() && scanResult.get() != ProcessCodes.PREVENT_BUILD_DUE_TO_POLICY.getCode()) {
                         htmlReportGenerationOnFailure(context, scanResult.get(), artifactName);
                     }
                 } catch (ExecutionException | IOException | InterruptedException ex) {
                     context.getLogger().println("[CRWDS::DEBUG] " + ex.getMessage());
+                    try {
+                        htmlReportGenerationOnFailure(context, scanResult.get(), artifactName);
+                    } catch (IOException | InterruptedException reportEx) {
+                        context.getLogger().println("[CRWDS::DEBUG] Failed to generate failure report - " + reportEx.getMessage());
+                    }
                 }
 
             });

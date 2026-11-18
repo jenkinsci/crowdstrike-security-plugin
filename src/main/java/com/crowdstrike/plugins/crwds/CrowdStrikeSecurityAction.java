@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
 public class CrowdStrikeSecurityAction implements RunAction2 {
-
+    
     private transient Run<?, ?> run;
 
     private final String artifactName;

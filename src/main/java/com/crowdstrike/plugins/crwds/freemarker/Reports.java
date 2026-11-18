@@ -72,7 +72,7 @@ public class Reports {
         }
     }
 
-    public static class ReportData {
+     public static class ReportData {
 
         private String html;
         private String uniqueId;

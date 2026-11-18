@@ -43,6 +43,9 @@ public class AssessmentData {
     @SerializedName("Manifest")
     private Manifest manifest;
 
+    @SerializedName("PolicyResponse")
+    private PolicyData.Resources policyResponse;
+
     public AssessmentData.ScanInfo getScanInfo() {
         return scanInfo;
     }
@@ -103,7 +106,7 @@ public class AssessmentData {
     }
 
     public ArrayList<AssessmentData.Packages> getPackages() {
-        return packages;
+        return packages != null ? packages : new ArrayList<>();
     }
 
     public void setPackages(ArrayList<AssessmentData.Packages> packages) {
@@ -138,6 +141,14 @@ public class AssessmentData {
 
     public void setManifest(AssessmentData.Manifest manifest) {
         this.manifest = manifest;
+    }
+
+    public PolicyData.Resources getPolicyResponse() {
+        return policyResponse;
+    }
+
+    public void setPolicyResponse(PolicyData.Resources policyResponse) {
+        this.policyResponse = policyResponse;
     }
 
     public int vulnerabilitiesCriticalCount() {
@@ -690,6 +701,7 @@ public class AssessmentData {
             }
 
             public static class Product {
+                @SerializedName("PackageSource")
                 private String packageSource;
 
                 public String getPackageSource() {

@@ -4,11 +4,11 @@
     This Jelly script is used to produce the global configuration option.
   -->
   <f:section title="CrowdStrike Security Plugin">
-    <f:entry title="Falcon Cloud" field="falconCloud">
+    <f:entry title="Falcon Region" field="falconCloud">
       <f:select/>
     </f:entry>
     <f:entry title="Falcon credential" field="falconCredentialId">
-      <c:select />
+        <c:select />
     </f:entry>
   </f:section>
 
@@ -20,8 +20,8 @@
     <f:entry title="">
       <div class="help">
         <ul>
-          <li><strong>Docker (default):</strong>Use Docker for all container operations</li>
-          <li><strong>Podman:</strong>Use Podman for all container operations</li>
+          <li><strong>Docker (default):</strong> Use Docker for all container operations</li>
+          <li><strong>Podman:</strong> Use Podman for all container operations</li>
         </ul>
       </div>
     </f:entry>

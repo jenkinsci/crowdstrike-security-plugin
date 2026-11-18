@@ -1,8 +1,12 @@
 package com.crowdstrike.plugins.crwds.utils;
 
 import com.crowdstrike.plugins.crwds.FalconContext;
-import hudson.*;
+import hudson.AbortException;
+import hudson.EnvVars;
+import hudson.FilePath;
+import hudson.Launcher;
 import hudson.Launcher.ProcStarter;
+import hudson.Proc;
 import hudson.model.TaskListener;
 import hudson.util.ArgumentListBuilder;
 
@@ -38,21 +42,23 @@ public class DockerUtils {
         this.runtime = runtime;
     }
 
-    public static boolean isRuntimeAvailable(ContainerRuntime runtime, EnvVars env, FilePath workspace, Launcher launcher, TaskListener listener) throws IOException, InterruptedException{
-        try{
+    public static boolean isRuntimeAvailable(ContainerRuntime runtime, EnvVars env, FilePath workspace, Launcher launcher, TaskListener listener) {
+        try {
             ArgumentListBuilder args = new ArgumentListBuilder();
             args.add(runtime.getExecutable()).add("--version");
             int exitCode = launcher.launch().cmds(args).envs(env).stdout(listener).pwd(workspace).join();
             return exitCode == 0;
-        }catch (IOException | InterruptedException e){
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            return false;
+        } catch (IOException e) {
             return false;
         }
     }
 
     public Integer containerLogin(FalconContext context, String username, String password, String csRegistryUrl) {
 
-        context.getLogger().println("[CRWDS::DEBUG] === Container Login Debug ===");
-        context.getLogger().println("[CRWDS::DEBUG] Runtime executable: " + runtime.getExecutable());
+        csRegistryUrl = csRegistryUrl.replace("https://", "");
 
         ArgumentListBuilder args = new ArgumentListBuilder();
 
@@ -66,11 +72,11 @@ public class DockerUtils {
                 throw new AbortException(errorMsg);
             }
         } catch(IOException | InterruptedException ex) {
-            context.getLogger().println("[CRWDS::DEBUG] " + runtime.getExecutable() + " Login -" + ex.getMessage());
+            context.getLogger().println("[CRWDS::DEBUG] " + runtime.getExecutable() + " Login - " + ex.getMessage());
             return runtime == ContainerRuntime.DOCKER ? ProcessCodes.DOCKER_LOGIN_FAILURE.getCode() : ProcessCodes.PODMAN_LOGIN_FAILURE.getCode();
         }
 
-        context.getLogger().println("[CRWDS::DEBUG] " + runtime.getExecutable() + " Login -" + ProcessCodes.CONTAINER_RUNTIME_OPERATION_SUCCESS.getDescription());
+        context.getLogger().println("[CRWDS::DEBUG] " + runtime.getExecutable() + " Login - " + ProcessCodes.CONTAINER_RUNTIME_OPERATION_SUCCESS.getDescription());
         return ProcessCodes.CONTAINER_RUNTIME_OPERATION_SUCCESS.getCode();
     }
 
@@ -94,11 +100,11 @@ public class DockerUtils {
                 throw new AbortException(errorMsg);
             }
         } catch(IOException | InterruptedException ex) {
-            context.getLogger().println("[CRWDS::DEBUG] " + runtime.getExecutable() + " Push -" + ex.getMessage());
+            context.getLogger().println("[CRWDS::DEBUG] " + runtime.getExecutable() + " Push - " + ex.getMessage());
             return runtime == ContainerRuntime.DOCKER ? ProcessCodes.DOCKER_PUSH_FAILURE.getCode() : ProcessCodes.PODMAN_PUSH_FAILURE.getCode();
         }
 
-        context.getLogger().println("[CRWDS::DEBUG] " + runtime.getExecutable() + " Push -" + ProcessCodes.CONTAINER_RUNTIME_OPERATION_SUCCESS.getDescription());
+        context.getLogger().println("[CRWDS::DEBUG] " + runtime.getExecutable() + " Push - " + ProcessCodes.CONTAINER_RUNTIME_OPERATION_SUCCESS.getDescription());
         return ProcessCodes.CONTAINER_RUNTIME_OPERATION_SUCCESS.getCode();
     }
 
@@ -116,11 +122,11 @@ public class DockerUtils {
                 throw new AbortException(errorMsg);
             }
         } catch(IOException | InterruptedException ex) {
-            context.getLogger().println("[CRWDS::DEBUG] " + runtime.getExecutable() + " Tag -" + ex.getMessage());
+            context.getLogger().println("[CRWDS::DEBUG] " + runtime.getExecutable() + " Tag - " + ex.getMessage());
             return runtime == ContainerRuntime.DOCKER ? ProcessCodes.DOCKER_TAG_FAILURE.getCode() : ProcessCodes.PODMAN_TAG_FAILURE.getCode();
         }
 
-        context.getLogger().println("[CRWDS::DEBUG] " + runtime.getExecutable() + " Tag -" + ProcessCodes.CONTAINER_RUNTIME_OPERATION_SUCCESS.getDescription());
+        context.getLogger().println("[CRWDS::DEBUG] " + runtime.getExecutable() + " Tag - " + ProcessCodes.CONTAINER_RUNTIME_OPERATION_SUCCESS.getDescription());
         return ProcessCodes.CONTAINER_RUNTIME_OPERATION_SUCCESS.getCode();
     }
 
